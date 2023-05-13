@@ -15,6 +15,8 @@
 		5FD1A4FF2A0F171A00916BEB /* ExtensionAnchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4FE2A0F171A00916BEB /* ExtensionAnchors.swift */; };
 		5FD1A5012A0F173400916BEB /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5002A0F173400916BEB /* ViewControllerPreview.swift */; };
 		5FD1A5032A0F271300916BEB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5022A0F271300916BEB /* RegisterViewController.swift */; };
+		5FD1A5052A0F2F1800916BEB /* LoginRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */; };
+		5FD1A5072A0F427E00916BEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		5FD1A4FE2A0F171A00916BEB /* ExtensionAnchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionAnchors.swift; sourceTree = "<group>"; };
 		5FD1A5002A0F173400916BEB /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		5FD1A5022A0F271300916BEB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewModel.swift; sourceTree = "<group>"; };
+		5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				5FD1A4E02A0F037500916BEB /* Assets.xcassets */,
 				5FD1A4E22A0F037500916BEB /* LaunchScreen.storyboard */,
 				5FD1A4E52A0F037500916BEB /* Info.plist */,
+				5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */,
 			);
 			path = WorkOutApp;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 		5FD1A4F72A0F15DB00916BEB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -261,6 +267,7 @@
 			files = (
 				5FD1A4E42A0F037500916BEB /* LaunchScreen.storyboard in Resources */,
 				5FD1A4E12A0F037500916BEB /* Assets.xcassets in Resources */,
+				5FD1A5072A0F427E00916BEB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +282,7 @@
 				5FD1A5012A0F173400916BEB /* ViewControllerPreview.swift in Sources */,
 				5FD1A4FC2A0F161900916BEB /* LoginViewController.swift in Sources */,
 				5FD1A5032A0F271300916BEB /* RegisterViewController.swift in Sources */,
+				5FD1A5052A0F2F1800916BEB /* LoginRegisterViewModel.swift in Sources */,
 				5FD1A4D82A0F037300916BEB /* AppDelegate.swift in Sources */,
 				5FD1A4DA2A0F037300916BEB /* SceneDelegate.swift in Sources */,
 			);

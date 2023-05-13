@@ -78,6 +78,18 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupViewElements()
+    }
+    //MARK: - Private
+    
+    func setupView() {
+        let backgroundLayer = CALayer()
+        backgroundLayer.frame = view.bounds
+        backgroundLayer.backgroundColor = UIColor.workOutBackground.cgColor
+        view.layer.insertSublayer(backgroundLayer, at: 0)
+    }
+
+    func setupViewElements() {
         view.addSubview(iconImage)
         iconImage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
         view.addSubview(welcomeLabel)
@@ -89,19 +101,11 @@ class LoginViewController: UIViewController {
         stackView.spacing = 16
         stackView.distribution = .fillEqually
         view.addSubview(stackView)
-        stackView.anchor(top: appNameLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 16, paddingRight: 16)
+        stackView.anchor(top: appNameLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 20, paddingRight: 20)
         NSLayoutConstraint.activate([
             welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-    }
-    //MARK: - Private
-    
-    func setupView() {
-        let backgroundLayer = CALayer()
-        backgroundLayer.frame = view.bounds
-        backgroundLayer.backgroundColor = UIColor.workOutBackground.cgColor
-        view.layer.insertSublayer(backgroundLayer, at: 0)
     }
 
     @objc private func pressLogin() {
