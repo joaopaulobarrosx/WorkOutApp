@@ -1,5 +1,5 @@
 //
-//  WorkoutViewController.swift
+//  ExerciseViewController.swift
 //  WorkOutApp
 //
 //  Created by Joao Barros on 13/05/23.
@@ -8,10 +8,10 @@
 import UIKit
 import SwiftUI
 
-class WorkoutViewController: UIViewController {
+class ExerciseViewController: UIViewController {
 
     //MARK: - Properties
-    let viewModel = WorkoutViewModel()
+    let viewModel = ExerciseViewModel()
     
     //MARK: - LifeCycle
 
@@ -31,17 +31,18 @@ class WorkoutViewController: UIViewController {
 
 //MARK: - WorkoutProtocol
 
-extension WorkoutViewController: WorkoutProtocol {
+extension ExerciseViewController: ExerciseProtocol {
     func showAlert(title: String, message: String) { }
 }
 
 
 //MARK: - Helpers
 
-struct WorkoutViewController_Preview: PreviewProvider {
+struct ExerciseViewController_Preview: PreviewProvider {
     static var previews: some View {
         ViewControllerPreview {
-            WorkoutViewController()
+            ExerciseViewController()
         }
     }
 }
+

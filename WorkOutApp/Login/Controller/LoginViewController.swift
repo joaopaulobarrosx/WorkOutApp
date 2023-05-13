@@ -79,19 +79,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        view.backgroundColor = .workOutBackground
+        viewModel.attachView(self)
         setupViewElements()
         addTapReconizer()
-        self.viewModel.attachView(self)
     }
     //MARK: - Private
-    
-    func setupView() {
-        let backgroundLayer = CALayer()
-        backgroundLayer.frame = view.bounds
-        backgroundLayer.backgroundColor = UIColor.workOutBackground.cgColor
-        view.layer.insertSublayer(backgroundLayer, at: 0)
-    }
 
     func setupViewElements() {
         view.addSubview(iconImage)

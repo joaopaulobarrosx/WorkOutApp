@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F1085452A0F58FE0044C4FB /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1085442A0F58FE0044C4FB /* WorkoutViewModel.swift */; };
+		5F1085472A0F5BE90044C4FB /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1085462A0F5BE90044C4FB /* ExerciseViewController.swift */; };
+		5F10854A2A0F5C0A0044C4FB /* ExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1085492A0F5C0A0044C4FB /* ExerciseViewModel.swift */; };
 		5FD1A4D82A0F037300916BEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4D72A0F037300916BEB /* AppDelegate.swift */; };
 		5FD1A4DA2A0F037300916BEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4D92A0F037300916BEB /* SceneDelegate.swift */; };
 		5FD1A4E12A0F037500916BEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FD1A4E02A0F037500916BEB /* Assets.xcassets */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F1085442A0F58FE0044C4FB /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
+		5F1085462A0F5BE90044C4FB /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
+		5F1085492A0F5C0A0044C4FB /* ExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewModel.swift; sourceTree = "<group>"; };
 		5FD1A4D42A0F037300916BEB /* WorkOutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkOutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FD1A4D72A0F037300916BEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FD1A4D92A0F037300916BEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,11 +84,11 @@
 				5FD1A4F62A0F15C300916BEB /* Login */,
 				5FD1A4EB2A0F03F200916BEB /* Workout */,
 				5FD1A4F12A0F054E00916BEB /* Exercises */,
-				5FD1A4FD2A0F16D400916BEB /* Helpers */,
 				5FD1A4E02A0F037500916BEB /* Assets.xcassets */,
 				5FD1A4E22A0F037500916BEB /* LaunchScreen.storyboard */,
 				5FD1A4E52A0F037500916BEB /* Info.plist */,
 				5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */,
+				5FD1A4FD2A0F16D400916BEB /* Helpers */,
 			);
 			path = WorkOutApp;
 			sourceTree = "<group>";
@@ -123,6 +129,7 @@
 		5FD1A4F02A0F050300916BEB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				5F1085442A0F58FE0044C4FB /* WorkoutViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -155,6 +162,7 @@
 		5FD1A4F42A0F057200916BEB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5F1085462A0F5BE90044C4FB /* ExerciseViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -162,6 +170,7 @@
 		5FD1A4F52A0F057A00916BEB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				5F1085492A0F5C0A0044C4FB /* ExerciseViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -350,10 +359,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEA51D52A0F4E7B006A1CE7 /* WorkoutViewController.swift in Sources */,
+				5F10854A2A0F5C0A0044C4FB /* ExerciseViewModel.swift in Sources */,
+				5F1085452A0F58FE0044C4FB /* WorkoutViewModel.swift in Sources */,
 				5FD1A4FF2A0F171A00916BEB /* ExtensionAnchors.swift in Sources */,
 				5FD1A5012A0F173400916BEB /* ViewControllerPreview.swift in Sources */,
 				5FD1A4FC2A0F161900916BEB /* LoginViewController.swift in Sources */,
 				5FD1A5032A0F271300916BEB /* RegisterViewController.swift in Sources */,
+				5F1085472A0F5BE90044C4FB /* ExerciseViewController.swift in Sources */,
 				5FD1A5052A0F2F1800916BEB /* LoginRegisterViewModel.swift in Sources */,
 				5FD1A4D82A0F037300916BEB /* AppDelegate.swift in Sources */,
 				5FD1A4DA2A0F037300916BEB /* SceneDelegate.swift in Sources */,
