@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Firebase
 
 protocol LoginRegisterProtocol: AnyObject {
     func showAlert(title: String, message: String)
+    func openWorkOutView()
 }
 
 class LoginRegisterViewModel {
@@ -32,6 +34,24 @@ class LoginRegisterViewModel {
     }
 
     func register(email: String, password: String) {
-        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let uid = result?.user.uid {
+                UserDefaults.standard.set(uid, forKey: "uid")
+                self.LoginRegisterView?.openWorkOutView()
+            } else if let error = error {
+                self.LoginRegisterView?.showAlert(title: "Register error", message: error.localizedDescription)
+            }
+        }
+    }
+
+    func login(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let uid = result?.user.uid {
+                UserDefaults.standard.set(uid, forKey: "uid")
+                self.LoginRegisterView?.openWorkOutView()
+            } else if let error = error {
+                self.LoginRegisterView?.showAlert(title: "Login error", message: error.localizedDescription)
+            }
+        }
     }
 }

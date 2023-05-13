@@ -17,6 +17,8 @@
 		5FD1A5032A0F271300916BEB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5022A0F271300916BEB /* RegisterViewController.swift */; };
 		5FD1A5052A0F2F1800916BEB /* LoginRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */; };
 		5FD1A5072A0F427E00916BEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */; };
+		5FEA51D52A0F4E7B006A1CE7 /* WorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA51D42A0F4E7B006A1CE7 /* WorkoutViewController.swift */; };
+		C75F02FED5A31E510590AB8B /* Pods_WorkOutApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2DB1BC094E7326B7C901F1 /* Pods_WorkOutApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,10 @@
 		5FD1A5022A0F271300916BEB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewModel.swift; sourceTree = "<group>"; };
 		5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		5FEA51D42A0F4E7B006A1CE7 /* WorkoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewController.swift; sourceTree = "<group>"; };
+		B2E3F38711CFB77F2EB27EB3 /* Pods-WorkOutApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkOutApp.release.xcconfig"; path = "Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp.release.xcconfig"; sourceTree = "<group>"; };
+		DA2DB1BC094E7326B7C901F1 /* Pods_WorkOutApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WorkOutApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD4A61126B5F08B50EC3DAC7 /* Pods-WorkOutApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkOutApp.debug.xcconfig"; path = "Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75F02FED5A31E510590AB8B /* Pods_WorkOutApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +57,8 @@
 			children = (
 				5FD1A4D62A0F037300916BEB /* WorkOutApp */,
 				5FD1A4D52A0F037300916BEB /* Products */,
+				EABA3829ABF856E28C0A779E /* Pods */,
+				83E34714151C6331DAB1AF66 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +115,7 @@
 		5FD1A4EF2A0F04F900916BEB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5FEA51D42A0F4E7B006A1CE7 /* WorkoutViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -207,6 +217,23 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		83E34714151C6331DAB1AF66 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA2DB1BC094E7326B7C901F1 /* Pods_WorkOutApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EABA3829ABF856E28C0A779E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD4A61126B5F08B50EC3DAC7 /* Pods-WorkOutApp.debug.xcconfig */,
+				B2E3F38711CFB77F2EB27EB3 /* Pods-WorkOutApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -214,9 +241,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5FD1A4E82A0F037500916BEB /* Build configuration list for PBXNativeTarget "WorkOutApp" */;
 			buildPhases = (
+				C99A5AF5E0A9439FE73F6C8B /* [CP] Check Pods Manifest.lock */,
 				5FD1A4D02A0F037300916BEB /* Sources */,
 				5FD1A4D12A0F037300916BEB /* Frameworks */,
 				5FD1A4D22A0F037300916BEB /* Resources */,
+				F0C88061096DA82C409223D8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -273,11 +302,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C99A5AF5E0A9439FE73F6C8B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WorkOutApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0C88061096DA82C409223D8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5FD1A4D02A0F037300916BEB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FEA51D52A0F4E7B006A1CE7 /* WorkoutViewController.swift in Sources */,
 				5FD1A4FF2A0F171A00916BEB /* ExtensionAnchors.swift in Sources */,
 				5FD1A5012A0F173400916BEB /* ViewControllerPreview.swift in Sources */,
 				5FD1A4FC2A0F161900916BEB /* LoginViewController.swift in Sources */,
@@ -418,6 +490,7 @@
 		};
 		5FD1A4E92A0F037500916BEB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD4A61126B5F08B50EC3DAC7 /* Pods-WorkOutApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -448,6 +521,7 @@
 		};
 		5FD1A4EA2A0F037500916BEB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2E3F38711CFB77F2EB27EB3 /* Pods-WorkOutApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

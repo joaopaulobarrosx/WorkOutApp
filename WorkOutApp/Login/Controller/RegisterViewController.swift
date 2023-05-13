@@ -82,6 +82,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupViewElements()
+        addTapReconizer()
         self.viewModel.attachView(self)
     }
 
@@ -104,7 +105,13 @@ class RegisterViewController: UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: registerLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 20, paddingRight: 20)
     }
-
+    
+    func addTapReconizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
     @objc private func pressRegister() {
         viewModel.validateFields(name: nameTextField.text, email: emailTextField.text, password: passwordTextField.text, rePassword: repeatPasswordTextField.text)
     }
@@ -112,14 +119,25 @@ class RegisterViewController: UIViewController {
     @objc private func pressBackLogin() {
         navigationController?.popViewController(animated: true)
     }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 //MARK: - LoginRegisterProtocol
 
 extension RegisterViewController: LoginRegisterProtocol {
+
+    func openWorkOutView() {
+        let workoutVC = WorkoutViewController()
+        navigationController?.popViewController(animated: true)
+        navigationController?.pushViewController(workoutVC, animated: true)
+    }
+    
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default))
                 present(alertController, animated: true, completion: nil)
     }
 }

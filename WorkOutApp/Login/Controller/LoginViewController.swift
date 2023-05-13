@@ -12,6 +12,8 @@ class LoginViewController: UIViewController {
     
     //MARK: - Properties
 
+    let viewModel = LoginRegisterViewModel()
+
     private let iconImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -65,7 +67,7 @@ class LoginViewController: UIViewController {
     
     private let registerButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Register", for: .normal)
+        button.setTitle("New here? Register now!", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.setTitleColor(.systemBlue, for: .normal)
         button.addTarget(self, action: #selector(pressRegistration), for: .touchUpInside)
@@ -79,6 +81,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupViewElements()
+        addTapReconizer()
+        self.viewModel.attachView(self)
     }
     //MARK: - Private
     
@@ -108,13 +112,39 @@ class LoginViewController: UIViewController {
         ])
     }
 
-    @objc private func pressLogin() {
+    func addTapReconizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
 
+    @objc private func pressLogin() {
+        viewModel.login(email: emailTextField.text ?? "", password: passwordTextField.text ?? "")
     }
 
     @objc private func pressRegistration() {
         let registerVC = RegisterViewController()
         navigationController?.pushViewController(registerVC, animated: true)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+//MARK: - LoginRegisterProtocol
+
+extension LoginViewController: LoginRegisterProtocol {
+    
+    func openWorkOutView() {
+        let workoutVC = WorkoutViewController()
+        navigationController?.pushViewController(workoutVC, animated: true)
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default))
+                present(alertController, animated: true, completion: nil)
     }
 }
 //MARK: - Helpers
