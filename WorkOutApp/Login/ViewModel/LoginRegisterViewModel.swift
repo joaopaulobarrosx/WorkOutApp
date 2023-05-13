@@ -27,17 +27,18 @@ class LoginRegisterViewModel {
            let password = password, !password.isEmpty,
            let rePassword = rePassword, !rePassword.isEmpty,
            password == rePassword {
-            register(email: email, password: password)
+            register(name: name,email: email, password: password)
         } else {
             LoginRegisterView?.showAlert(title: "Register error", message: "Please complete correctly all the text fields")
         }
     }
 
-    func register(email: String, password: String) {
+    func register(name: String, email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let uid = result?.user.uid {
                 UserDefaults.standard.set(uid, forKey: "uid")
                 self.LoginRegisterView?.openWorkOutView()
+                self.saveUserInfo(name: name)
             } else if let error = error {
                 self.LoginRegisterView?.showAlert(title: "Register error", message: error.localizedDescription)
             }
@@ -51,6 +52,25 @@ class LoginRegisterViewModel {
                 self.LoginRegisterView?.openWorkOutView()
             } else if let error = error {
                 self.LoginRegisterView?.showAlert(title: "Login error", message: error.localizedDescription)
+            }
+        }
+    }
+
+    func checkIfUserIsLogged() {
+        if Auth.auth().currentUser != nil {
+            self.LoginRegisterView?.openWorkOutView()
+        }
+    }
+
+    func saveUserInfo(name: String) {
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            self.LoginRegisterView?.showAlert(title: "Register error", message: "Error uploading user's info")
+            return
+        }
+        let ref = Database.database().reference().child("users").child(uid)
+        ref.updateChildValues(["name": name]) { error, ref in
+            if let error = error {
+                self.LoginRegisterView?.showAlert(title: "Register error", message: error.localizedDescription)
             }
         }
     }

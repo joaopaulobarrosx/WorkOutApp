@@ -123,8 +123,8 @@ class RegisterViewController: UIViewController {
 extension RegisterViewController: LoginRegisterProtocol {
 
     func openWorkOutView() {
-        let workoutVC = WorkoutViewController()
         navigationController?.popViewController(animated: true)
+        let workoutVC = WorkoutViewController()
         navigationController?.pushViewController(workoutVC, animated: true)
     }
     
@@ -135,7 +135,7 @@ extension RegisterViewController: LoginRegisterProtocol {
     }
 }
 
-//MARK: - Helpers
+//MARK: - Preview
 
 struct RegisterViewController_Preview: PreviewProvider {
     static var previews: some View {

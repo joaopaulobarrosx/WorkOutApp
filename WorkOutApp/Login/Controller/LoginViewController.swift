@@ -84,6 +84,12 @@ class LoginViewController: UIViewController {
         setupViewElements()
         addTapReconizer()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkIfUserIsLogged()
+    }
+
     //MARK: - Private
 
     func setupViewElements() {
@@ -103,6 +109,10 @@ class LoginViewController: UIViewController {
             welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+
+    func checkIfUserIsLogged() {
+        viewModel.checkIfUserIsLogged()
     }
 
     func addTapReconizer() {
@@ -140,7 +150,7 @@ extension LoginViewController: LoginRegisterProtocol {
                 present(alertController, animated: true, completion: nil)
     }
 }
-//MARK: - Helpers
+//MARK: - Preview
 
 struct LoginViewController_Preview: PreviewProvider {
     static var previews: some View {

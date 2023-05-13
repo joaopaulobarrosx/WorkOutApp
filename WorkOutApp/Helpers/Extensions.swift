@@ -93,4 +93,5 @@ extension UIColor {
     }
     
     static let workOutBackground = UIColor.rgb(red: 84, green: 84, blue: 84)
+    static let workOutBackgroundLight = UIColor.rgb(red: 90, green: 90, blue: 90)
 }

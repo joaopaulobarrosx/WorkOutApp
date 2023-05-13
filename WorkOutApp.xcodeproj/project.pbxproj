@@ -10,12 +10,14 @@
 		5F1085452A0F58FE0044C4FB /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1085442A0F58FE0044C4FB /* WorkoutViewModel.swift */; };
 		5F1085472A0F5BE90044C4FB /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1085462A0F5BE90044C4FB /* ExerciseViewController.swift */; };
 		5F10854A2A0F5C0A0044C4FB /* ExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1085492A0F5C0A0044C4FB /* ExerciseViewModel.swift */; };
+		5F3D26542A10181100E03589 /* WorkoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3D26532A10181100E03589 /* WorkoutCell.swift */; };
+		5F3D26592A101AA200E03589 /* WorkoutHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3D26582A101AA200E03589 /* WorkoutHeaderView.swift */; };
 		5FD1A4D82A0F037300916BEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4D72A0F037300916BEB /* AppDelegate.swift */; };
 		5FD1A4DA2A0F037300916BEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4D92A0F037300916BEB /* SceneDelegate.swift */; };
 		5FD1A4E12A0F037500916BEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FD1A4E02A0F037500916BEB /* Assets.xcassets */; };
 		5FD1A4E42A0F037500916BEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FD1A4E22A0F037500916BEB /* LaunchScreen.storyboard */; };
 		5FD1A4FC2A0F161900916BEB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4FB2A0F161900916BEB /* LoginViewController.swift */; };
-		5FD1A4FF2A0F171A00916BEB /* ExtensionAnchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4FE2A0F171A00916BEB /* ExtensionAnchors.swift */; };
+		5FD1A4FF2A0F171A00916BEB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A4FE2A0F171A00916BEB /* Extensions.swift */; };
 		5FD1A5012A0F173400916BEB /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5002A0F173400916BEB /* ViewControllerPreview.swift */; };
 		5FD1A5032A0F271300916BEB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5022A0F271300916BEB /* RegisterViewController.swift */; };
 		5FD1A5052A0F2F1800916BEB /* LoginRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */; };
@@ -28,6 +30,8 @@
 		5F1085442A0F58FE0044C4FB /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 		5F1085462A0F5BE90044C4FB /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
 		5F1085492A0F5C0A0044C4FB /* ExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewModel.swift; sourceTree = "<group>"; };
+		5F3D26532A10181100E03589 /* WorkoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCell.swift; sourceTree = "<group>"; };
+		5F3D26582A101AA200E03589 /* WorkoutHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHeaderView.swift; sourceTree = "<group>"; };
 		5FD1A4D42A0F037300916BEB /* WorkOutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkOutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FD1A4D72A0F037300916BEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FD1A4D92A0F037300916BEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,7 +39,7 @@
 		5FD1A4E32A0F037500916BEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5FD1A4E52A0F037500916BEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FD1A4FB2A0F161900916BEB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		5FD1A4FE2A0F171A00916BEB /* ExtensionAnchors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionAnchors.swift; sourceTree = "<group>"; };
+		5FD1A4FE2A0F171A00916BEB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5FD1A5002A0F173400916BEB /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		5FD1A5022A0F271300916BEB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewModel.swift; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 		5FD1A4ED2A0F04E600916BEB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5F3D26532A10181100E03589 /* WorkoutCell.swift */,
+				5F3D26582A101AA200E03589 /* WorkoutHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -220,7 +226,7 @@
 		5FD1A4FD2A0F16D400916BEB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				5FD1A4FE2A0F171A00916BEB /* ExtensionAnchors.swift */,
+				5FD1A4FE2A0F171A00916BEB /* Extensions.swift */,
 				5FD1A5002A0F173400916BEB /* ViewControllerPreview.swift */,
 			);
 			path = Helpers;
@@ -359,9 +365,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FEA51D52A0F4E7B006A1CE7 /* WorkoutViewController.swift in Sources */,
+				5F3D26592A101AA200E03589 /* WorkoutHeaderView.swift in Sources */,
 				5F10854A2A0F5C0A0044C4FB /* ExerciseViewModel.swift in Sources */,
 				5F1085452A0F58FE0044C4FB /* WorkoutViewModel.swift in Sources */,
-				5FD1A4FF2A0F171A00916BEB /* ExtensionAnchors.swift in Sources */,
+				5F3D26542A10181100E03589 /* WorkoutCell.swift in Sources */,
+				5FD1A4FF2A0F171A00916BEB /* Extensions.swift in Sources */,
 				5FD1A5012A0F173400916BEB /* ViewControllerPreview.swift in Sources */,
 				5FD1A4FC2A0F161900916BEB /* LoginViewController.swift in Sources */,
 				5FD1A5032A0F271300916BEB /* RegisterViewController.swift in Sources */,
