@@ -104,18 +104,18 @@
 		5FD1A4D62A0F037300916BEB /* WorkOutApp */ = {
 			isa = PBXGroup;
 			children = (
-				5FD1A4D72A0F037300916BEB /* AppDelegate.swift */,
-				5FD1A4D92A0F037300916BEB /* SceneDelegate.swift */,
 				5FD1A4F62A0F15C300916BEB /* Login */,
 				5FD1A4EB2A0F03F200916BEB /* Workout */,
 				5FD1A4F12A0F054E00916BEB /* Exercises */,
+				5FD1A4FD2A0F16D400916BEB /* Helpers */,
+				5F3D26832A10924400E03589 /* CoreDataFiles */,
+				5FD1A4D92A0F037300916BEB /* SceneDelegate.swift */,
+				5FD1A4D72A0F037300916BEB /* AppDelegate.swift */,
 				5FD1A4E02A0F037500916BEB /* Assets.xcassets */,
 				5FD1A4E22A0F037500916BEB /* LaunchScreen.storyboard */,
 				5FD1A4E52A0F037500916BEB /* Info.plist */,
 				5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */,
 				5F3D265D2A105B3E00E03589 /* WorkoutModel.xcdatamodeld */,
-				5FD1A4FD2A0F16D400916BEB /* Helpers */,
-				5F3D26832A10924400E03589 /* CoreDataFiles */,
 			);
 			path = WorkOutApp;
 			sourceTree = "<group>";

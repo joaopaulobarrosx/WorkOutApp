@@ -123,7 +123,7 @@ class ExerciseViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 110
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -173,7 +173,7 @@ extension ExerciseViewController: ExerciseHeaderViewDelegate {
 }
 
 extension ExerciseViewController: AddItemViewControllerDelegate {
-    func didSaveItem(title: String, description: String, image: Data?, isEditing: Bool, exercise: Exercise?) {
+    func didSaveItem(title: String, description: String, image: Data?, exercise: Exercise?) {
         if let exercise {
             viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
 

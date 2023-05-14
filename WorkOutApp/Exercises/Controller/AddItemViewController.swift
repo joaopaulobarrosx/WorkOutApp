@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 protocol AddItemViewControllerDelegate: AnyObject {
-    func didSaveItem(title: String, description: String, image: Data?, isEditing: Bool, exercise: Exercise?)
+    func didSaveItem(title: String, description: String, image: Data?, exercise: Exercise?)
 }
 
 class AddItemViewController: UIViewController {
@@ -19,7 +19,6 @@ class AddItemViewController: UIViewController {
     weak var delegate: AddItemViewControllerDelegate?
     private var selectedImage: UIImage?
     private var selectedImageData: Data?
-    var isEditingItem = false
     var exercise: Exercise?
 
     private lazy var cancelButton: UIButton = {
@@ -73,7 +72,7 @@ class AddItemViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(systemName: "photo")
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -112,7 +111,6 @@ class AddItemViewController: UIViewController {
         if let image {
             imageView.image = UIImage(data: image)
         }
-        isEditingItem = true
     }
     
     @objc private func cancelButtonTapped() {
@@ -123,7 +121,7 @@ class AddItemViewController: UIViewController {
         
         if let title = itemTitleTextField.text, !title.isEmpty,
            let description = itemDescriptionTextField.text, !description.isEmpty {
-            self.delegate?.didSaveItem(title: title, description: description, image: selectedImageData, isEditing: isEditingItem, exercise: exercise)
+            self.delegate?.didSaveItem(title: title, description: description, image: selectedImageData, exercise: exercise)
             dismiss(animated: true, completion: nil)
         } else {
             let alertController = UIAlertController(title: "", message: "Fill the text fields to save information", preferredStyle: .alert)
