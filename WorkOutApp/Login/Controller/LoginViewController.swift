@@ -54,7 +54,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    private let loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
@@ -65,7 +65,7 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    private let registerButton: UIButton = {
+    private lazy var registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("New here? Register now!", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)

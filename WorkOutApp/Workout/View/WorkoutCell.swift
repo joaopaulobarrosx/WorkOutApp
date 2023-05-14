@@ -11,7 +11,10 @@ import SwiftUI
 class WorkoutCell: UITableViewCell {
 
     //MARK: - Properties
+    
+    var workout: Workout?
 
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -76,6 +79,18 @@ class WorkoutCell: UITableViewCell {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         dateLabel.text = formatter.string(from: date)
+    }
+
+    func setup() {
+        if let workout {
+            titleLabel.text = workout.workoutTitle
+            descriptionLabel.text = workout.descriptionLabel
+
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            let date = formatter.string(from: workout.createdLabel ?? Date())
+            dateLabel.text = "Created at \(date)"
+        }
     }
 }
 

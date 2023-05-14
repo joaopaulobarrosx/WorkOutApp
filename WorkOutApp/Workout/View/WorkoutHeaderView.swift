@@ -10,6 +10,7 @@ import SwiftUI
 
 protocol WorkoutHeaderViewDelegate: AnyObject {
     func logoutUser()
+    func addPressed()
 }
 
 class WorkoutHeaderView: UITableViewHeaderFooterView {
@@ -86,6 +87,7 @@ class WorkoutHeaderView: UITableViewHeaderFooterView {
     }
 
     @objc private func pressAdd() {
+        delegate?.addPressed()
         print("DEBUG: Add Pressed")
     }
 }
