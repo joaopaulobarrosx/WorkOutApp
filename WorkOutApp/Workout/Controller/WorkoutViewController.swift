@@ -14,7 +14,7 @@ class WorkoutViewController: UITableViewController {
     let viewModel = WorkoutViewModel()
     private let reuseIdentifier = "WorkoutCell"
     private let headerReuseIdentifier = "WorkoutHeaderView"
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     private var workout = [Workout]()
     
     //MARK: - LifeCycle
@@ -79,6 +79,7 @@ class WorkoutViewController: UITableViewController {
     //MARK: - CoreData
     
     func getAllItens() {
+        guard let context else { return }
         do {
             workout = try context.fetch(Workout.fetchRequest())
             DispatchQueue.main.async {
@@ -90,6 +91,7 @@ class WorkoutViewController: UITableViewController {
     }
 
     func createItem(label: String, description: String) {
+        guard let context else { return }
         let newItem = Workout(context: context)
         newItem.workoutTitle = label
         newItem.descriptionLabel = description
@@ -103,6 +105,7 @@ class WorkoutViewController: UITableViewController {
     }
 
     func deleteItem(item: Workout) {
+        guard let context else { return }
         context.delete(item)
         do {
             try context.save()
@@ -113,6 +116,7 @@ class WorkoutViewController: UITableViewController {
     }
 
     func updateltem(item: Workout, label: String, description: String) {
+        guard let context else { return }
         item.workoutTitle = label
         item.descriptionLabel = description
         item.createdLabel = Date()
