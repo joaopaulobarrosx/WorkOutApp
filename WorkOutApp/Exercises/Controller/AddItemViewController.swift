@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 protocol AddItemViewControllerDelegate: AnyObject {
-    func didAddItem(title: String, description: String)
+    func didSaveItem(title: String, description: String, image: Data?, isEditing: Bool, exercise: Exercise?)
 }
 
 class AddItemViewController: UIViewController {
@@ -18,6 +18,9 @@ class AddItemViewController: UIViewController {
 
     weak var delegate: AddItemViewControllerDelegate?
     private var selectedImage: UIImage?
+    private var selectedImageData: Data?
+    var isEditingItem = false
+    var exercise: Exercise?
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -102,6 +105,15 @@ class AddItemViewController: UIViewController {
         imageView.anchor(top: photoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20, width: 250, height: 250)
 
     }
+
+    func setupEditedView(title: String, description: String, image: Data?) {
+        itemTitleTextField.text = title
+        itemDescriptionTextField.text = description
+        if let image {
+            imageView.image = UIImage(data: image)
+        }
+        isEditingItem = true
+    }
     
     @objc private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
@@ -111,9 +123,7 @@ class AddItemViewController: UIViewController {
         
         if let title = itemTitleTextField.text, !title.isEmpty,
            let description = itemDescriptionTextField.text, !description.isEmpty {
-            
-            // passar a imagem na propriedade selectedImage para upar no core data
-            self.delegate?.didAddItem(title: title, description: description)
+            self.delegate?.didSaveItem(title: title, description: description, image: selectedImageData, isEditing: isEditingItem, exercise: exercise)
             dismiss(animated: true, completion: nil)
         } else {
             let alertController = UIAlertController(title: "", message: "Fill the text fields to save information", preferredStyle: .alert)
@@ -141,6 +151,9 @@ extension AddItemViewController: UIImagePickerControllerDelegate & UINavigationC
             selectedImage = originalImage
         }
         imageView.image = selectedImage
+        if let imageData = selectedImage?.jpegData(compressionQuality: 0.7) {
+            selectedImageData = imageData
+        }
         picker.dismiss(animated: true)
     }
 

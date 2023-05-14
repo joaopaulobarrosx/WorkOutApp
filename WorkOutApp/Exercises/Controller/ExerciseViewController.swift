@@ -44,27 +44,38 @@ class ExerciseViewController: UITableViewController {
     }
 
     func editItemModal(exercise: Exercise) {
-        let alertController = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
-        alertController.addTextField { textField in
-            if let nameLabel = exercise.nameLabel {
-                textField.text = String(describing: nameLabel)
-            }
-        }
-        alertController.addTextField { textField in
-            textField.placeholder = String(describing: exercise.notesLabel)
-            if let notesLabel = exercise.notesLabel {
-                textField.text = String(describing: notesLabel)
-            }
-        }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            guard let title = alertController.textFields?[0].text, !title.isEmpty,
-                  let description = alertController.textFields?[1].text, !description.isEmpty else {
-                return
-            }
-            self.viewModel.updateltem(item: exercise, label: title, description: description, selectedWorkout: self.selectedWorkout)
-        })
-        present(alertController, animated: true, completion: nil)
+//        let alertController = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
+//        alertController.addTextField { textField in
+//            if let nameLabel = exercise.nameLabel {
+//                textField.text = String(describing: nameLabel)
+//            }
+//        }
+//        alertController.addTextField { textField in
+//            textField.placeholder = String(describing: exercise.notesLabel)
+//            if let notesLabel = exercise.notesLabel {
+//                textField.text = String(describing: notesLabel)
+//            }
+//        }
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+//            guard let title = alertController.textFields?[0].text, !title.isEmpty,
+//                  let description = alertController.textFields?[1].text, !description.isEmpty else {
+//                return
+//            }
+//            self.viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
+//        })
+//
+//
+//        present(alertController, animated: true, completion: nil)
+        
+        
+        let addExerciseViewController = AddItemViewController()
+        addExerciseViewController.delegate = self
+        guard let nameLabel = exercise.nameLabel,
+              let notesLabel = exercise.notesLabel else { return }
+        addExerciseViewController.exercise = exercise
+        addExerciseViewController.setupEditedView(title: nameLabel, description: notesLabel, image: exercise.exerciseImage)
+        present(addExerciseViewController, animated: true)
     }
 
     func deleteItemModal(exercise: Exercise) {
@@ -76,6 +87,8 @@ class ExerciseViewController: UITableViewController {
         })
         present(alertController, animated: true, completion: nil)
     }
+
+    
     //MARK: - UITableViewDelegate, UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,6 +97,7 @@ class ExerciseViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        editItemModal(exercise: exercise[indexPath.row])
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -159,8 +173,13 @@ extension ExerciseViewController: ExerciseHeaderViewDelegate {
 }
 
 extension ExerciseViewController: AddItemViewControllerDelegate {
-    func didAddItem(title: String, description: String) {
-        viewModel.createItem(label: title, description: description, selectedWorkout: self.selectedWorkout)
+    func didSaveItem(title: String, description: String, image: Data?, isEditing: Bool, exercise: Exercise?) {
+        if let exercise {
+            viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
+
+        } else {
+            viewModel.createItem(label: title, description: description, image: image, selectedWorkout: self.selectedWorkout)
+        }
     }
 }
 //MARK: - Preview
