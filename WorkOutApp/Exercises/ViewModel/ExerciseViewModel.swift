@@ -25,10 +25,17 @@ class ExerciseViewModel {
 
     //MARK: - CoreData
 
-    func getAllItens() {
-        guard let context else { return }
+    func getAllItens(selectedWorkout: Workout?) {
+        guard let context = context,
+              let selectedWorkout = selectedWorkout,
+              let workoutTitle = selectedWorkout.workoutTitle  else { return }
+
+        let predicate = NSPredicate(format: "parentCategory.workoutTitle MATCHES %@", workoutTitle)
+        let request = Exercise.fetchRequest()
+        request.predicate = predicate
+        
         do {
-            let exerciseArray = try context.fetch(Exercise.fetchRequest())
+            let exerciseArray = try context.fetch(request)
             self.exerciseView?.returnExerciseArray(exercise: exerciseArray)
         } catch let error {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
@@ -43,30 +50,30 @@ class ExerciseViewModel {
         newItem.parentCategory = selectedWorkout
         do {
             try context.save()
-            getAllItens()
+            getAllItens(selectedWorkout: selectedWorkout)
         } catch {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
     }
 
-    func deleteItem(item: Exercise) {
+    func deleteItem(item: Exercise, selectedWorkout: Workout?) {
         guard let context else { return }
         context.delete(item)
         do {
             try context.save()
-            getAllItens()
+            getAllItens(selectedWorkout: selectedWorkout)
         } catch {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
     }
 
-    func updateltem(item: Exercise, label: String, description: String) {
+    func updateltem(item: Exercise, label: String, description: String, selectedWorkout: Workout?) {
         guard let context else { return }
         item.nameLabel = label
         item.notesLabel = description
         do {
             try context.save()
-            getAllItens()
+            getAllItens(selectedWorkout: selectedWorkout)
         } catch {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }

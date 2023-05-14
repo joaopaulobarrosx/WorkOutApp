@@ -17,7 +17,8 @@ class ExerciseViewController: UITableViewController {
     private var exercise = [Exercise]()
     var selectedWorkout: Workout? {
         didSet {
-            viewModel.getAllItens()
+            tableView.reloadData()
+            viewModel.getAllItens(selectedWorkout: selectedWorkout)
         }
     }
     
@@ -62,7 +63,7 @@ class ExerciseViewController: UITableViewController {
                   let description = alertController.textFields?[1].text, !description.isEmpty else {
                 return
             }
-            self.viewModel.updateltem(item: exercise, label: title, description: description)
+            self.viewModel.updateltem(item: exercise, label: title, description: description, selectedWorkout: self.selectedWorkout)
         })
         present(alertController, animated: true, completion: nil)
     }
@@ -72,7 +73,7 @@ class ExerciseViewController: UITableViewController {
         let alertController = UIAlertController(title: "Delete Item?", message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            self.viewModel.deleteItem(item: exercise)
+            self.viewModel.deleteItem(item: exercise, selectedWorkout: self.selectedWorkout)
         })
         present(alertController, animated: true, completion: nil)
     }
