@@ -72,15 +72,6 @@ class WorkoutCell: UITableViewCell {
         lineView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 1)
     }
 
-    func configure(title: String, description: String, date: Date) {
-        titleLabel.text = title
-        descriptionLabel.text = description
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        dateLabel.text = formatter.string(from: date)
-    }
-
     func setup() {
         if let workout {
             titleLabel.text = workout.workoutTitle

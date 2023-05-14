@@ -140,7 +140,7 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginRegisterProtocol {
     
     func openWorkOutView() {
-        let workoutVC = WorkoutViewController()
+        let workoutVC = ExerciseViewController()
         navigationController?.pushViewController(workoutVC, animated: true)
     }
     

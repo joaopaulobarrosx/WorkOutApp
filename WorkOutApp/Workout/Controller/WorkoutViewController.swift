@@ -21,9 +21,9 @@ class WorkoutViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .workOutBackground
+        viewModel.attachView(self)
         tableView.register(WorkoutCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(WorkoutHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
-        viewModel.attachView(self)
         setupViewElements()
         viewModel.getAllItens()
     }
