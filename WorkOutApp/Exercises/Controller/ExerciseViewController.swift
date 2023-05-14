@@ -152,27 +152,18 @@ extension ExerciseViewController: ExerciseProtocol {
 extension ExerciseViewController: ExerciseHeaderViewDelegate {
 
     func addPressed() {
-        let alertController = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
-        alertController.addTextField { textField in
-            textField.placeholder = "Title"
-        }
-        alertController.addTextField { textField in
-            textField.placeholder = "Description"
-        }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            guard let title = alertController.textFields?[0].text, !title.isEmpty,
-                  let description = alertController.textFields?[1].text, !description.isEmpty else {
-                return
-            }
-            self.viewModel.createItem(label: title, description: description, selectedWorkout: self.selectedWorkout)
-        })
-        present(alertController, animated: true, completion: nil)
+        let addExerciseViewController = AddItemViewController()
+        addExerciseViewController.delegate = self
+        present(addExerciseViewController, animated: true)
     }
-    
 }
 
-//MARK: - Helpers
+extension ExerciseViewController: AddItemViewControllerDelegate {
+    func didAddItem(title: String, description: String) {
+        viewModel.createItem(label: title, description: description, selectedWorkout: self.selectedWorkout)
+    }
+}
+//MARK: - Preview
 
 struct ExerciseViewController_Preview: PreviewProvider {
     static var previews: some View {

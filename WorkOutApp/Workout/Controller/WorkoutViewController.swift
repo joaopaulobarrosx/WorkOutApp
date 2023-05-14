@@ -16,7 +16,7 @@ class WorkoutViewController: UITableViewController {
     private let headerReuseIdentifier = "WorkoutHeaderView"
     private var workout = [Workout]()
     
-    //MARK: - LifeCycleee
+    //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
