@@ -14,7 +14,6 @@ class WorkoutViewController: UITableViewController {
     let viewModel = WorkoutViewModel()
     private let reuseIdentifier = "WorkoutCell"
     private let headerReuseIdentifier = "WorkoutHeaderView"
-    let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     private var workout = [Workout]()
     
     //MARK: - LifeCycle
@@ -26,7 +25,7 @@ class WorkoutViewController: UITableViewController {
         tableView.register(WorkoutHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
         viewModel.attachView(self)
         setupViewElements()
-        getAllItens()
+        viewModel.getAllItens()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +39,7 @@ class WorkoutViewController: UITableViewController {
         
     }
     
-    func editItem(workout: Workout) {
+    func editItemModal(workout: Workout) {
         let alertController = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
         alertController.addTextField { textField in
             if let workoutTitle = workout.workoutTitle {
@@ -59,76 +58,20 @@ class WorkoutViewController: UITableViewController {
                   let description = alertController.textFields?[1].text, !description.isEmpty else {
                 return
             }
-            self.updateltem(item: workout, label: title, description: description)
+            self.viewModel.updateltem(item: workout, label: title, description: description)
         })
-
         present(alertController, animated: true, completion: nil)
     }
 
-    func deleteItem(workout: Workout) {
+    func deleteItemModal(workout: Workout) {
 
         let alertController = UIAlertController(title: "Delete Item?", message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            self.deleteItem(item: workout)
+            self.viewModel.deleteItem(item: workout)
         })
-
         present(alertController, animated: true, completion: nil)
     }
-
-    //MARK: - CoreData
-    
-    func getAllItens() {
-        guard let context else { return }
-        do {
-            workout = try context.fetch(Workout.fetchRequest())
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print("Error")
-        }
-    }
-
-    func createItem(label: String, description: String) {
-        guard let context else { return }
-        let newItem = Workout(context: context)
-        newItem.workoutTitle = label
-        newItem.descriptionLabel = description
-        newItem.createdLabel = Date()
-        do {
-            try context.save()
-            getAllItens()
-        } catch {
-            print("Error")
-        }
-    }
-
-    func deleteItem(item: Workout) {
-        guard let context else { return }
-        context.delete(item)
-        do {
-            try context.save()
-            getAllItens()
-        } catch {
-            print("Error")
-        }
-    }
-
-    func updateltem(item: Workout, label: String, description: String) {
-        guard let context else { return }
-        item.workoutTitle = label
-        item.descriptionLabel = description
-        item.createdLabel = Date()
-        do {
-            try context.save()
-            getAllItens()
-        } catch {
-            print("Error")
-        }
-    }
-
-
 
     //MARK: - UITableViewDelegate, UITableViewDataSource
 
@@ -172,10 +115,10 @@ class WorkoutViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let edit = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
-            self.editItem(workout: self.workout[indexPath.row])
+            self.editItemModal(workout: self.workout[indexPath.row])
         }
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.deleteItem(workout: self.workout[indexPath.row])
+            self.deleteItemModal(workout: self.workout[indexPath.row])
         }
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [edit, delete])
         swipeConfiguration.performsFirstActionWithFullSwipe = false
@@ -185,7 +128,17 @@ class WorkoutViewController: UITableViewController {
 //MARK: - WorkoutProtocol
 
 extension WorkoutViewController: WorkoutProtocol {
-    func showAlert(title: String, message: String) { }
+    func returnWorkoutArray(workout: [Workout]) {
+        self.workout = workout
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default))
+                present(alertController, animated: true, completion: nil)
+    }
     func returnToLoginView() {
         navigationController?.popViewController(animated: true)
     }
@@ -209,7 +162,7 @@ extension WorkoutViewController: WorkoutHeaderViewDelegate {
                   let description = alertController.textFields?[1].text, !description.isEmpty else {
                 return
             }
-            self.createItem(label: title, description: description)
+            self.viewModel.createItem(label: title, description: description)
         })
 
         present(alertController, animated: true, completion: nil)
