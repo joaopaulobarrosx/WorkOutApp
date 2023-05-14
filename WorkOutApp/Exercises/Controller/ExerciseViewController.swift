@@ -28,8 +28,6 @@ class ExerciseViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .workOutBackground
         viewModel.attachView(self)
-        tableView.register(ExerciseCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.register(ExerciseHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
         setupViewElements()
     }
     
@@ -41,7 +39,8 @@ class ExerciseViewController: UITableViewController {
     //MARK: - Private
     
     func setupViewElements() {
-        
+        tableView.register(ExerciseCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(ExerciseHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
     }
 
     func editItemModal(exercise: Exercise) {
@@ -151,10 +150,7 @@ extension ExerciseViewController: ExerciseProtocol {
 //MARK: - ExerciseHeaderViewDelegate
 
 extension ExerciseViewController: ExerciseHeaderViewDelegate {
-    func logoutUser() {
-        
-    }
-    
+
     func addPressed() {
         let alertController = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
         alertController.addTextField { textField in
@@ -171,9 +167,7 @@ extension ExerciseViewController: ExerciseHeaderViewDelegate {
             }
             self.viewModel.createItem(label: title, description: description, selectedWorkout: self.selectedWorkout)
         })
-
         present(alertController, animated: true, completion: nil)
-
     }
     
 }

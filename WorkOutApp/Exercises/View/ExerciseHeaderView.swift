@@ -9,7 +9,6 @@ import UIKit
 import SwiftUI
 
 protocol ExerciseHeaderViewDelegate: AnyObject {
-    func logoutUser()
     func addPressed()
 }
 
@@ -45,15 +44,6 @@ class ExerciseHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-//    private lazy var logoutButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setTitle("Logout", for: .normal)
-//        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-//        button.setTitleColor(.blue, for: .normal)
-//        button.addTarget(self, action: #selector(pressLogout), for: .touchUpInside)
-//        return button
-//    }()
-    
     //MARK: - Init
     
     override init(reuseIdentifier: String?) {
@@ -68,22 +58,16 @@ class ExerciseHeaderView: UITableViewHeaderFooterView {
     //MARK: - Setup
     
     private func setupViews() {
-//        addSubview(logoutButton)
         addSubview(titleLabel)
         addSubview(descriptionLabel)
         addSubview(actionButton)
-        
-//        logoutButton.anchor(top: topAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 10, width: 70, height: 30)
+
         titleLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 30)
         descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 30, paddingRight: 16)
         actionButton.anchor(bottom: bottomAnchor, right: rightAnchor,paddingBottom: 16, paddingRight: 16, width: 120, height: 40)
     }
 
     //MARK: - Private
-
-//    @objc private func pressLogout() {
-//        delegate?.logoutUser()
-//    }
 
     @objc private func pressAdd() {
         delegate?.addPressed()
