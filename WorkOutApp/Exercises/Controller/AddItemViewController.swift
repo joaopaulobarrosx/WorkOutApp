@@ -17,6 +17,7 @@ class AddItemViewController: UIViewController {
     //MARK: - Properties
 
     weak var delegate: AddItemViewControllerDelegate?
+    private var selectedImage: UIImage?
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -56,7 +57,24 @@ class AddItemViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 16)
         return textField
     }()
-    
+
+    private lazy var photoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Add Picture", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.addTarget(self, action: #selector(photoButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "photo")
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+
     //MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -73,11 +91,16 @@ class AddItemViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(itemTitleTextField)
         view.addSubview(itemDescriptionTextField)
+        view.addSubview(photoButton)
+        view.addSubview(imageView)
         cancelButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20)
         saveButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 20, paddingRight: 20)
         titleLabel.anchor(top: cancelButton.bottomAnchor, left: view.leftAnchor, paddingTop: 32, paddingLeft: 20)
         itemTitleTextField.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
         itemDescriptionTextField.anchor(top: itemTitleTextField.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
+        photoButton.anchor(top: itemDescriptionTextField.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
+        imageView.anchor(top: photoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20, width: 250, height: 250)
+
     }
     
     @objc private func cancelButtonTapped() {
@@ -88,15 +111,39 @@ class AddItemViewController: UIViewController {
         
         if let title = itemTitleTextField.text, !title.isEmpty,
            let description = itemDescriptionTextField.text, !description.isEmpty {
+            
+            // passar a imagem na propriedade selectedImage para upar no core data
             self.delegate?.didAddItem(title: title, description: description)
             dismiss(animated: true, completion: nil)
         } else {
-            let alertController = UIAlertController(title: "", message: "Fill the textFields to save information", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "", message: "Fill the text fields to save information", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Ok", style: .default))
             present(alertController, animated: true, completion: nil)
         }
-        
     }
+
+    @objc private func photoButtonTapped() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        present(picker, animated: true)
+    }
+}
+//MARK: - Picker
+
+extension AddItemViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let editedImage = info[.editedImage] as? UIImage {
+            selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            selectedImage = originalImage
+        }
+        imageView.image = selectedImage
+        picker.dismiss(animated: true)
+    }
+
 }
 
 //MARK: - Preview
