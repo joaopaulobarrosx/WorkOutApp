@@ -133,7 +133,6 @@ class WorkoutViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("DEBUG: clicou index \(indexPath.row)")
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -169,11 +168,9 @@ class WorkoutViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let edit = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
-            print("DEBUG: clicked EDIT \(indexPath.row)")
             self.editItem(workout: self.workout[indexPath.row])
         }
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            print("DEBUG: clicked DELETE \(indexPath.row)")
             self.deleteItem(workout: self.workout[indexPath.row])
         }
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [edit, delete])
@@ -196,31 +193,21 @@ extension WorkoutViewController: WorkoutHeaderViewDelegate {
 
     func addPressed() {
         let alertController = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
-
-        // Add text fields for title and description
         alertController.addTextField { textField in
             textField.placeholder = "Title"
         }
         alertController.addTextField { textField in
             textField.placeholder = "Description"
         }
-
-        // Add "Cancel" action
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-        // Add "OK" action
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            // Retrieve text from text fields
             guard let title = alertController.textFields?[0].text, !title.isEmpty,
                   let description = alertController.textFields?[1].text, !description.isEmpty else {
                 return
             }
-            print("DEBUG: \(title), Description: \(description)")
             self.createItem(label: title, description: description)
-            
         })
 
-        // Present alert controller
         present(alertController, animated: true, completion: nil)
 
     }

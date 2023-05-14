@@ -83,12 +83,10 @@ class WorkoutHeaderView: UITableViewHeaderFooterView {
 
     @objc private func pressLogout() {
         delegate?.logoutUser()
-        print("DEBUG: Logout Pressed")
     }
 
     @objc private func pressAdd() {
         delegate?.addPressed()
-        print("DEBUG: Add Pressed")
     }
 }
 
