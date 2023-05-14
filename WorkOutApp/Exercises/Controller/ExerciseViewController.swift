@@ -15,6 +15,11 @@ class ExerciseViewController: UITableViewController {
     private let reuseIdentifier = "ExerciseCell"
     private let headerReuseIdentifier = "ExerciseHeaderView"
     private var exercise = [Exercise]()
+    var selectedWorkout: Workout? {
+        didSet {
+            viewModel.getAllItens()
+        }
+    }
     
     //MARK: - LifeCycle
 
@@ -25,6 +30,11 @@ class ExerciseViewController: UITableViewController {
         tableView.register(ExerciseCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(ExerciseHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
         setupViewElements()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
     }
 
     //MARK: - Private
@@ -158,7 +168,7 @@ extension ExerciseViewController: ExerciseHeaderViewDelegate {
                   let description = alertController.textFields?[1].text, !description.isEmpty else {
                 return
             }
-            self.viewModel.createItem(label: title, description: description)
+            self.viewModel.createItem(label: title, description: description, selectedWorkout: self.selectedWorkout)
         })
 
         present(alertController, animated: true, completion: nil)

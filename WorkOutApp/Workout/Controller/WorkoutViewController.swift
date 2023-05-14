@@ -80,6 +80,11 @@ class WorkoutViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let exerciseViewController = ExerciseViewController()
+        exerciseViewController.selectedWorkout = workout[indexPath.row]
+        navigationController?.pushViewController(exerciseViewController, animated: true)
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 

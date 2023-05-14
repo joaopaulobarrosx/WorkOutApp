@@ -35,11 +35,12 @@ class ExerciseViewModel {
         }
     }
 
-    func createItem(label: String, description: String) {
-        guard let context else { return }
+    func createItem(label: String, description: String, selectedWorkout: Workout?) {
+        guard let context = context, let selectedWorkout = selectedWorkout else { return }
         let newItem = Exercise(context: context)
         newItem.nameLabel = label
         newItem.notesLabel = description
+        newItem.parentCategory = selectedWorkout
         do {
             try context.save()
             getAllItens()
