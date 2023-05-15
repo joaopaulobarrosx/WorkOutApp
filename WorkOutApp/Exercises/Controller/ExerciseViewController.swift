@@ -119,6 +119,8 @@ class ExerciseViewController: UITableViewController {
             return UITableViewHeaderFooterView()
         }
         headerView.delegate = self
+        headerView.layer.cornerRadius = 20
+        headerView.layer.masksToBounds = true
         return headerView
     }
     

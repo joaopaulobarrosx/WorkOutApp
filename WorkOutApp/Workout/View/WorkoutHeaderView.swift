@@ -77,6 +77,8 @@ class WorkoutHeaderView: UITableViewHeaderFooterView {
         titleLabel.anchor(top: logoutButton.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 30)
         descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 30, paddingRight: 16)
         actionButton.anchor(bottom: bottomAnchor, right: rightAnchor,paddingBottom: 16, paddingRight: 16, width: 120, height: 40)
+        backgroundView = UIView(frame: bounds)
+        backgroundView?.backgroundColor = .lightGray
     }
 
     //MARK: - Private
