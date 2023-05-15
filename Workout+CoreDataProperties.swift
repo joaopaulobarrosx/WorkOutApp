@@ -16,9 +16,16 @@ extension Workout {
         return NSFetchRequest<Workout>(entityName: "Workout")
     }
 
+    @nonobjc public class func fetchRequest(forUserUid userUid: String) -> NSFetchRequest<Workout> {
+        let fetchRequest: NSFetchRequest<Workout> = Workout.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "userUid == %@", userUid)
+        return fetchRequest
+    }
+
     @NSManaged public var workoutTitle: String?
     @NSManaged public var createdLabel: Date?
     @NSManaged public var descriptionLabel: String?
+    @NSManaged public var userUid: String?
 
 }
 
