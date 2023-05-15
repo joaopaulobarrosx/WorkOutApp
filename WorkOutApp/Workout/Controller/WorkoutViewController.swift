@@ -16,7 +16,7 @@ class WorkoutViewController: UITableViewController {
     private let headerReuseIdentifier = "WorkoutHeaderView"
     private var workout = [Workout]()
     
-    //MARK: - LifeCycleee
+    //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +107,8 @@ class WorkoutViewController: UITableViewController {
             return UITableViewHeaderFooterView()
         }
         headerView.delegate = self
+        headerView.layer.cornerRadius = 20
+        headerView.layer.masksToBounds = true
         return headerView
     }
     

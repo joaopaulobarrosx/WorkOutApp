@@ -42,11 +42,14 @@ class ExerciseViewModel {
         }
     }
 
-    func createItem(label: String, description: String, selectedWorkout: Workout?) {
+    func createItem(label: String, description: String, image: Data?, selectedWorkout: Workout?) {
         guard let context = context, let selectedWorkout = selectedWorkout else { return }
         let newItem = Exercise(context: context)
         newItem.nameLabel = label
         newItem.notesLabel = description
+        if let image {
+            newItem.exerciseImage = image
+        }
         newItem.parentCategory = selectedWorkout
         do {
             try context.save()
@@ -67,10 +70,13 @@ class ExerciseViewModel {
         }
     }
 
-    func updateltem(item: Exercise, label: String, description: String, selectedWorkout: Workout?) {
+    func updateltem(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
         guard let context else { return }
         item.nameLabel = label
         item.notesLabel = description
+        if let image {
+            item.exerciseImage = image
+        }
         do {
             try context.save()
             getAllItens(selectedWorkout: selectedWorkout)
