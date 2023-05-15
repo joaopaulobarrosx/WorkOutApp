@@ -63,10 +63,12 @@ class LoginRegisterViewModel {
     }
 
     func saveUserInfo(name: String) {
+
         guard let uid = UserDefaults.standard.string(forKey: "uid") else {
             self.LoginRegisterView?.showAlert(title: "Register error", message: "Error uploading user's info")
             return
         }
+
         let ref = Database.database().reference().child("users").child(uid)
         ref.updateChildValues(["name": name]) { error, ref in
             if let error = error {

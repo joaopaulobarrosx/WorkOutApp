@@ -52,19 +52,37 @@ class WorkoutViewModel {
         let newItem = Workout(context: context)
         newItem.workoutTitle = label
         newItem.descriptionLabel = description
-        newItem.createdLabel = Date()
-        if let uid = UserDefaults.standard.object(forKey: "uid") as? String {
-            newItem.userUid = uid
+        let date = Date()
+        newItem.createdLabel = date
+        let uuid = UUID()
+        newItem.uid = uuid
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else {
+            return
         }
+        newItem.userUid = uidUser
+        print("DEBUG: Item UUID \(newItem)")
         do {
             try context.save()
             getAllItens()
         } catch {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
+
+        createItemFirebase(label: label, description: description, uuid: uuid.uuidString, date: date)
     }
 
+    func createItemFirebase(label: String, description: String, uuid: String, date: Date) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuid)")
+        refWorkout.setData(["workoutTitle": label, "descriptionLabel": description, "createdLabel": date, "uid": uuid, "userUid": uidUser])
+    }
+    
+
     func deleteItem(item: Workout) {
+        
+        deleteItemFirebase(item: item)
+
         guard let context else { return }
         context.delete(item)
         do {
@@ -73,13 +91,26 @@ class WorkoutViewModel {
         } catch {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
+        
+    }
+
+    func deleteItemFirebase(item: Workout) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
+              let uidElement = item.uid?.uuidString else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uidElement)")
+        refWorkout.delete()
     }
 
     func updateltem(item: Workout, label: String, description: String) {
+
+        if let uuid = item.uid?.uuidString, let date = item.createdLabel {
+            updateItemFirebase(item: item, label: label, description: description, uuid: uuid, date: date)
+        }
+        
         guard let context else { return }
         item.workoutTitle = label
         item.descriptionLabel = description
-        item.createdLabel = Date()
         do {
             try context.save()
             getAllItens()
@@ -88,6 +119,13 @@ class WorkoutViewModel {
         }
     }
 
+    func updateItemFirebase(item: Workout, label: String, description: String, uuid: String, date: Date) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuid)")
+        refWorkout.updateData(["workoutTitle": label, "descriptionLabel": description, "createdLabel": date, "uid": uuid, "userUid": uidUser])
+    }
+    
     func editItemModal(workout: Workout, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {
         let addItemViewController = AddItemViewController()
         addItemViewController.delegate = delegate
