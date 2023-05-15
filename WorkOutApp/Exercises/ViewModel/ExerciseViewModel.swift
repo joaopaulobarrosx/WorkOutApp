@@ -47,7 +47,8 @@ class ExerciseViewModel {
         let newItem = Exercise(context: context)
         newItem.nameLabel = label
         newItem.notesLabel = description
-        newItem.uid = UUID()
+        let uuid = UUID()
+        newItem.uid = uuid
         if let image {
             newItem.exerciseImage = image
         }
@@ -58,6 +59,20 @@ class ExerciseViewModel {
         } catch {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
+
+        createItemFirebase(label: label, description: description, uuid: uuid.uuidString, selectedWorkout: selectedWorkout, image: image)
+    }
+
+    func createItemFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, image: Data?) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
+              let uuidWorkout = selectedWorkout.uid?.uuidString else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise/\(uuid)")
+        var params = ["nameLabel": label, "notesLabel": description, "uid": uuid]
+        if let image {
+            params["exerciseImage"] = "imageURLUploadedaqui"
+        }
+        refWorkout.setData(params)
     }
 
     func deleteItem(item: Exercise, selectedWorkout: Workout?) {

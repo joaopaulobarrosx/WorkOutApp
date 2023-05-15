@@ -52,18 +52,32 @@ class WorkoutViewModel {
         let newItem = Workout(context: context)
         newItem.workoutTitle = label
         newItem.descriptionLabel = description
-        newItem.createdLabel = Date()
-        newItem.uid = UUID()
-        if let uid = UserDefaults.standard.object(forKey: "uid") as? String {
-            newItem.userUid = uid
+        let date = Date()
+        newItem.createdLabel = date
+        let uuid = UUID()
+        newItem.uid = uuid
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else {
+            return
         }
+        newItem.userUid = uidUser
+
         do {
             try context.save()
             getAllItens()
         } catch {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
+
+        createItemFirebase(label: label, description: description, uuid: uuid.uuidString, date: date)
     }
+
+    func createItemFirebase(label: String, description: String, uuid: String, date: Date) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuid)")
+        refWorkout.setData(["workoutTitle": label, "descriptionLabel": description, "createdLabel": date, "uid": uuid, "userUid": uidUser])
+    }
+    
 
     func deleteItem(item: Workout) {
         guard let context else { return }
