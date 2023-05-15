@@ -20,10 +20,7 @@ class WorkoutViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.backgroundColor = .workOutBackground
         viewModel.attachView(self)
-        tableView.register(WorkoutCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.register(WorkoutHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
         setupViewElements()
         viewModel.getAllItens()
     }
@@ -36,7 +33,9 @@ class WorkoutViewController: UITableViewController {
     //MARK: - Private
     
     func setupViewElements() {
-        
+        tableView.backgroundColor = .workOutBackground
+        tableView.register(WorkoutCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(WorkoutHeaderView.self, forHeaderFooterViewReuseIdentifier: headerReuseIdentifier)
     }
     
     func editItemModal(workout: Workout) {
@@ -122,17 +121,20 @@ class WorkoutViewController: UITableViewController {
 //MARK: - WorkoutProtocol
 
 extension WorkoutViewController: WorkoutProtocol {
+    
     func returnWorkoutArray(workout: [Workout]) {
         self.workout = workout
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
+    
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: .default))
                 present(alertController, animated: true, completion: nil)
     }
+    
     func returnToLoginView() {
         navigationController?.popViewController(animated: true)
     }
