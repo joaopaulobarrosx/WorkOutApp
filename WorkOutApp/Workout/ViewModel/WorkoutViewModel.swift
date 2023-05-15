@@ -60,7 +60,7 @@ class WorkoutViewModel {
             return
         }
         newItem.userUid = uidUser
-
+        print("DEBUG: Item UUID \(newItem)")
         do {
             try context.save()
             getAllItens()
@@ -80,6 +80,9 @@ class WorkoutViewModel {
     
 
     func deleteItem(item: Workout) {
+        
+        deleteItemFirebase(item: item)
+
         guard let context else { return }
         context.delete(item)
         do {
@@ -88,6 +91,15 @@ class WorkoutViewModel {
         } catch {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
+        
+    }
+
+    func deleteItemFirebase(item: Workout) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
+              let uidElement = item.uid?.uuidString else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uidElement)")
+        refWorkout.delete()
     }
 
     func updateltem(item: Workout, label: String, description: String) {

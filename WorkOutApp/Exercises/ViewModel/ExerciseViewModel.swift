@@ -76,6 +76,9 @@ class ExerciseViewModel {
     }
 
     func deleteItem(item: Exercise, selectedWorkout: Workout?) {
+        
+        deleteItemFirebase(item: item, selectedWorkout: selectedWorkout)
+        
         guard let context else { return }
         context.delete(item)
         do {
@@ -86,6 +89,17 @@ class ExerciseViewModel {
         }
     }
 
+    func deleteItemFirebase(item: Exercise, selectedWorkout: Workout?) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
+              let selectedWorkout = selectedWorkout,
+              let uuidWorkout = selectedWorkout.uid?.uuidString,
+              let uuid = item.uid?.uuidString else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise/\(uuid)")
+        refWorkout.delete()
+    }
+    
+    
     func updateltem(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
         guard let context else { return }
         item.nameLabel = label
