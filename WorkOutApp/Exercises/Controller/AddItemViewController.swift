@@ -86,8 +86,8 @@ class AddItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .workOutBackgroundLight
-        setupView()
         modalPresentationStyle = .pageSheet
+        setupView()
     }
     
     //MARK: - Private
