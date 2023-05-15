@@ -16,7 +16,12 @@ protocol LoginRegisterProtocol: AnyObject {
 class LoginRegisterViewModel {
     
     weak private var LoginRegisterView: LoginRegisterProtocol?
+    let ref: Auth
 
+    init(ref: Auth = Auth.auth()) {
+        self.ref = ref
+    }
+    
     func attachView(_ view: LoginRegisterProtocol) {
         self.LoginRegisterView = view
     }
@@ -34,7 +39,7 @@ class LoginRegisterViewModel {
     }
 
     func register(name: String, email: String, password: String) {
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+        ref.createUser(withEmail: email, password: password) { result, error in
             if let uid = result?.user.uid {
                 UserDefaults.standard.set(uid, forKey: "uid")
                 self.LoginRegisterView?.openWorkOutView()
@@ -46,7 +51,7 @@ class LoginRegisterViewModel {
     }
 
     func login(email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+        ref.signIn(withEmail: email, password: password) { result, error in
             if let uid = result?.user.uid {
                 UserDefaults.standard.set(uid, forKey: "uid")
                 self.LoginRegisterView?.openWorkOutView()
@@ -57,7 +62,7 @@ class LoginRegisterViewModel {
     }
 
     func checkIfUserIsLogged() {
-        if Auth.auth().currentUser != nil {
+        if ref.currentUser != nil {
             self.LoginRegisterView?.openWorkOutView()
         }
     }
@@ -69,8 +74,8 @@ class LoginRegisterViewModel {
             return
         }
 
-        let ref = Database.database().reference().child("users").child(uid)
-        ref.updateChildValues(["name": name]) { error, ref in
+        let databaseRef = Database.database().reference().child("users").child(uid)
+        databaseRef.updateChildValues(["name": name]) { error, ref in
             if let error = error {
                 self.LoginRegisterView?.showAlert(title: "Register error", message: error.localizedDescription)
             }

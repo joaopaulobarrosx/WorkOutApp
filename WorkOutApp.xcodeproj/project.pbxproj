@@ -125,19 +125,11 @@
 		5FD1A4EB2A0F03F200916BEB /* Workout */ = {
 			isa = PBXGroup;
 			children = (
-				5FD1A4EC2A0F04DB00916BEB /* Model */,
 				5FD1A4ED2A0F04E600916BEB /* View */,
 				5FD1A4EF2A0F04F900916BEB /* Controller */,
 				5FD1A4F02A0F050300916BEB /* ViewModel */,
 			);
 			path = Workout;
-			sourceTree = "<group>";
-		};
-		5FD1A4EC2A0F04DB00916BEB /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		5FD1A4ED2A0F04E600916BEB /* View */ = {
@@ -168,19 +160,11 @@
 		5FD1A4F12A0F054E00916BEB /* Exercises */ = {
 			isa = PBXGroup;
 			children = (
-				5FD1A4F22A0F056600916BEB /* Model */,
 				5FD1A4F32A0F056B00916BEB /* View */,
 				5FD1A4F42A0F057200916BEB /* Controller */,
 				5FD1A4F52A0F057A00916BEB /* ViewModel */,
 			);
 			path = Exercises;
-			sourceTree = "<group>";
-		};
-		5FD1A4F22A0F056600916BEB /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		5FD1A4F32A0F056B00916BEB /* View */ = {
@@ -212,8 +196,6 @@
 		5FD1A4F62A0F15C300916BEB /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				5FD1A4FA2A0F15F100916BEB /* Model */,
-				5FD1A4F92A0F15ED00916BEB /* View */,
 				5FD1A4F82A0F15E400916BEB /* Controller */,
 				5FD1A4F72A0F15DB00916BEB /* ViewModel */,
 			);
@@ -235,20 +217,6 @@
 				5FD1A5022A0F271300916BEB /* RegisterViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		5FD1A4F92A0F15ED00916BEB /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		5FD1A4FA2A0F15F100916BEB /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		5FD1A4FD2A0F16D400916BEB /* Helpers */ = {
