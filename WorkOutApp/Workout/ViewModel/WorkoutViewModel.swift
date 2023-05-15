@@ -46,6 +46,11 @@ class WorkoutViewModel {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
         
+        getAllItensFirebase()
+
+    }
+
+    func getAllItensFirebase() {
         guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
         let database = Firestore.firestore()
         let refWorkout = database.collection("uidUser/\(uidUser)/workout")
@@ -54,7 +59,6 @@ class WorkoutViewModel {
                 refWorkout.getDocuments { snapshot, error in
                     if let snapshot = snapshot {
                         var workouts: [Workout] = []
-
                         for document in snapshot.documents {
                             let workoutData = document.data()
                             let workout = Workout(context: PersistenceController.shared.container.viewContext)
@@ -67,9 +71,14 @@ class WorkoutViewModel {
                             }
                             workouts.append(workout)
                         }
+                        
+                        
                         // Do something with the decoded workouts array
-                    } else {
-                        print("DEBUG: ERROO")
+                        
+                        // comparar com os dados do core data, o que o core data nao tiver, faz o upload aqui
+
+                    } else if let error = error {
+                        self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
                     }
                 }
             }
