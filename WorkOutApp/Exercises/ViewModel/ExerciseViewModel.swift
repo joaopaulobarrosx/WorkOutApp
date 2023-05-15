@@ -84,4 +84,25 @@ class ExerciseViewModel {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
     }
+
+    func editItemModal(exercise: Exercise, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {
+        let addItemViewController = AddItemViewController()
+        addItemViewController.delegate = delegate
+        addItemViewController.exercise = exercise
+        if let nameLabel = exercise.nameLabel,
+              let notesLabel = exercise.notesLabel  {
+            addItemViewController.setupEditedView(title: nameLabel, description: notesLabel, image: exercise.exerciseImage)
+        }
+        return addItemViewController
+    }
+
+    func deleteItemModal(exercise: Exercise, selectedWorkout: Workout?) -> UIAlertController {
+        
+        let alertController = UIAlertController(title: "Delete Item?", message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            self.deleteItem(item: exercise, selectedWorkout: selectedWorkout)
+        })
+        return alertController
+    }
 }
