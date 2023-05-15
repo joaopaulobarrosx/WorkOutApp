@@ -39,24 +39,15 @@ class WorkoutViewController: UITableViewController {
     }
     
     func editItemModal(workout: Workout) {
-        let addItemViewController = AddItemViewController()
-        addItemViewController.delegate = self
-        addItemViewController.workout = workout
-        addItemViewController.isWorkoutView = true
-        guard let workoutTitle = workout.workoutTitle,
-              let descriptionLabel = workout.descriptionLabel else { return }
-        addItemViewController.setupWorkoutEditView(title: workoutTitle, description: descriptionLabel)
-        present(addItemViewController, animated: true)
+
+        let modal = viewModel.editItemModal(workout: workout, delegate: self)
+        present(modal, animated: true)
     }
 
     func deleteItemModal(workout: Workout) {
 
-        let alertController = UIAlertController(title: "Delete Item?", message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            self.viewModel.deleteItem(item: workout)
-        })
-        present(alertController, animated: true, completion: nil)
+        let modal = viewModel.deleteItemModal(workout: workout)
+        present(modal, animated: true, completion: nil)
     }
 
     //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -145,11 +136,8 @@ extension WorkoutViewController: WorkoutProtocol {
 extension WorkoutViewController: WorkoutHeaderViewDelegate {
 
     func addPressed() {
-        let addItemViewController = AddItemViewController()
-        addItemViewController.delegate = self
-        addItemViewController.setupWorkoutView()
-        addItemViewController.isWorkoutView = true
-        present(addItemViewController, animated: true)
+        let modal = viewModel.addPressed(delegate: self)
+        present(modal, animated: true)
     }
     
     func logoutUser() {

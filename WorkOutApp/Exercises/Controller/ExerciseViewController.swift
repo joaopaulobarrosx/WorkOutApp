@@ -45,23 +45,14 @@ class ExerciseViewController: UITableViewController {
 
     func editItemModal(exercise: Exercise) {
 
-        let addItemViewController = AddItemViewController()
-        addItemViewController.delegate = self
-        guard let nameLabel = exercise.nameLabel,
-              let notesLabel = exercise.notesLabel else { return }
-        addItemViewController.exercise = exercise
-        addItemViewController.setupEditedView(title: nameLabel, description: notesLabel, image: exercise.exerciseImage)
-        present(addItemViewController, animated: true)
+        let modal = viewModel.editItemModal(exercise: exercise, delegate: self)
+        present(modal, animated: true)
     }
 
     func deleteItemModal(exercise: Exercise) {
 
-        let alertController = UIAlertController(title: "Delete Item?", message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            self.viewModel.deleteItem(item: exercise, selectedWorkout: self.selectedWorkout)
-        })
-        present(alertController, animated: true, completion: nil)
+        let modal = viewModel.deleteItemModal(exercise: exercise, selectedWorkout: selectedWorkout)
+        present(modal, animated: true, completion: nil)
     }
 
     
@@ -87,7 +78,7 @@ class ExerciseViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 200
+        return 160
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -156,7 +147,7 @@ extension ExerciseViewController: AddItemViewControllerDelegate {
 
     func didSaveExerciseItem(title: String, description: String, image: Data?, exercise: Exercise?) {
         if let exercise {
-            viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
+            viewModel.updateltem(item: exercise, label: title, description: description, image: image, selectedWorkout: self.selectedWorkout)
 
         } else {
             viewModel.createItem(label: title, description: description, image: image, selectedWorkout: self.selectedWorkout)
