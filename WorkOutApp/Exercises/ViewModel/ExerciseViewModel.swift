@@ -47,6 +47,7 @@ class ExerciseViewModel {
         let newItem = Exercise(context: context)
         newItem.nameLabel = label
         newItem.notesLabel = description
+        newItem.uid = UUID()
         if let image {
             newItem.exerciseImage = image
         }

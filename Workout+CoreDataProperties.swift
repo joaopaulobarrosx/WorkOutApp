@@ -26,6 +26,7 @@ extension Workout {
     @NSManaged public var createdLabel: Date?
     @NSManaged public var descriptionLabel: String?
     @NSManaged public var userUid: String?
+    @NSManaged public var uid: UUID?
 
 }
 

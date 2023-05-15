@@ -53,6 +53,7 @@ class WorkoutViewModel {
         newItem.workoutTitle = label
         newItem.descriptionLabel = description
         newItem.createdLabel = Date()
+        newItem.uid = UUID()
         if let uid = UserDefaults.standard.object(forKey: "uid") as? String {
             newItem.userUid = uid
         }
@@ -79,7 +80,6 @@ class WorkoutViewModel {
         guard let context else { return }
         item.workoutTitle = label
         item.descriptionLabel = description
-        item.createdLabel = Date()
         do {
             try context.save()
             getAllItens()
