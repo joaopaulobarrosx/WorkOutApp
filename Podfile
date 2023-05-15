@@ -7,12 +7,12 @@ target 'WorkOutApp' do
 
   # Pods for WorkOutApp
 
-	pod 'Firebase/Core'
-	pod 'Firebase/Firestore'
-	pod 'Firebase/Database'
-	pod 'Firebase/Storage'	
-	pod 'Firebase/Auth'
-	pod 'Firebase/Analytics'
-  pod 'IQKeyboardManagerSwift'
+	pod 'Firebase/Core', '10.8.0'
+	pod 'Firebase/Firestore', '10.8.0'
+	pod 'Firebase/Database', '10.8.0'
+	pod 'Firebase/Storage', '10.8.0'
+	pod 'Firebase/Auth', '10.8.0'
+	pod 'Firebase/Analytics', '10.8.0'
+  pod 'IQKeyboardManagerSwift', '6.5.11'
 
 end
