@@ -44,38 +44,14 @@ class ExerciseViewController: UITableViewController {
     }
 
     func editItemModal(exercise: Exercise) {
-//        let alertController = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
-//        alertController.addTextField { textField in
-//            if let nameLabel = exercise.nameLabel {
-//                textField.text = String(describing: nameLabel)
-//            }
-//        }
-//        alertController.addTextField { textField in
-//            textField.placeholder = String(describing: exercise.notesLabel)
-//            if let notesLabel = exercise.notesLabel {
-//                textField.text = String(describing: notesLabel)
-//            }
-//        }
-//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-//            guard let title = alertController.textFields?[0].text, !title.isEmpty,
-//                  let description = alertController.textFields?[1].text, !description.isEmpty else {
-//                return
-//            }
-//            self.viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
-//        })
-//
-//
-//        present(alertController, animated: true, completion: nil)
-        
-        
-        let addExerciseViewController = AddItemViewController()
-        addExerciseViewController.delegate = self
+
+        let addItemViewController = AddItemViewController()
+        addItemViewController.delegate = self
         guard let nameLabel = exercise.nameLabel,
               let notesLabel = exercise.notesLabel else { return }
-        addExerciseViewController.exercise = exercise
-        addExerciseViewController.setupEditedView(title: nameLabel, description: notesLabel, image: exercise.exerciseImage)
-        present(addExerciseViewController, animated: true)
+        addItemViewController.exercise = exercise
+        addItemViewController.setupEditedView(title: nameLabel, description: notesLabel, image: exercise.exerciseImage)
+        present(addItemViewController, animated: true)
     }
 
     func deleteItemModal(exercise: Exercise) {
@@ -168,14 +144,17 @@ extension ExerciseViewController: ExerciseProtocol {
 extension ExerciseViewController: ExerciseHeaderViewDelegate {
 
     func addPressed() {
-        let addExerciseViewController = AddItemViewController()
-        addExerciseViewController.delegate = self
-        present(addExerciseViewController, animated: true)
+        let addItemViewController = AddItemViewController()
+        addItemViewController.delegate = self
+        present(addItemViewController, animated: true)
     }
 }
 
 extension ExerciseViewController: AddItemViewControllerDelegate {
-    func didSaveItem(title: String, description: String, image: Data?, exercise: Exercise?) {
+
+    func didSaveWorkoutItem(title: String, description: String, image: Data?, workout: Workout?) { }
+
+    func didSaveExerciseItem(title: String, description: String, image: Data?, exercise: Exercise?) {
         if let exercise {
             viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
 

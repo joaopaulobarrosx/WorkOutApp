@@ -9,7 +9,8 @@ import UIKit
 import SwiftUI
 
 protocol AddItemViewControllerDelegate: AnyObject {
-    func didSaveItem(title: String, description: String, image: Data?, exercise: Exercise?)
+    func didSaveExerciseItem(title: String, description: String, image: Data?, exercise: Exercise?)
+    func didSaveWorkoutItem(title: String, description: String, image: Data?, workout: Workout?)
 }
 
 class AddItemViewController: UIViewController {
@@ -20,6 +21,8 @@ class AddItemViewController: UIViewController {
     private var selectedImage: UIImage?
     private var selectedImageData: Data?
     var exercise: Exercise?
+    var workout: Workout?
+    var isWorkoutView = false
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -40,7 +43,7 @@ class AddItemViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.text = "Add Item"
+        label.text = "Add Exercise"
         return label
     }()
     
@@ -85,6 +88,11 @@ class AddItemViewController: UIViewController {
         setupView()
         modalPresentationStyle = .pageSheet
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        isWorkoutView = false
+    }
+    
     //MARK: - Private
     
     private func setupView() {
@@ -106,6 +114,7 @@ class AddItemViewController: UIViewController {
     }
 
     func setupEditedView(title: String, description: String, image: Data?) {
+        titleLabel.text = "Edit Exercise"
         itemTitleTextField.text = title
         itemDescriptionTextField.text = description
         if let image {
@@ -113,20 +122,55 @@ class AddItemViewController: UIViewController {
         }
     }
     
+    func setupWorkoutView() {
+        titleLabel.text = "Add Workout"
+        photoButton.isHidden = true
+        imageView.isHidden = true
+    }
+
+    func setupWorkoutEditView(title: String, description: String) {
+        titleLabel.text = "Edit Workout"
+        itemTitleTextField.text = title
+        itemDescriptionTextField.text = description
+        photoButton.isHidden = true
+        imageView.isHidden = true
+    }
+
+    func saveExerciseData() {
+        if let title = itemTitleTextField.text, !title.isEmpty,
+           let description = itemDescriptionTextField.text, !description.isEmpty {
+            self.delegate?.didSaveExerciseItem(title: title, description: description, image: selectedImageData, exercise: exercise)
+            dismiss(animated: true, completion: nil)
+        } else {
+            showAlertOk()
+        }
+    }
+    
+    func saveWorkoutData() {
+        if let title = itemTitleTextField.text, !title.isEmpty,
+           let description = itemDescriptionTextField.text, !description.isEmpty {
+            self.delegate?.didSaveWorkoutItem(title: title, description: description, image: selectedImageData, workout: workout)
+            dismiss(animated: true, completion: nil)
+        } else {
+            showAlertOk()
+        }
+    }
+    
+    func showAlertOk() {
+        let alertController = UIAlertController(title: "", message: "Fill the text fields to save information", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @objc private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
     @objc private func saveButtonTapped() {
-        
-        if let title = itemTitleTextField.text, !title.isEmpty,
-           let description = itemDescriptionTextField.text, !description.isEmpty {
-            self.delegate?.didSaveItem(title: title, description: description, image: selectedImageData, exercise: exercise)
-            dismiss(animated: true, completion: nil)
+        if isWorkoutView {
+            self.saveWorkoutData()
         } else {
-            let alertController = UIAlertController(title: "", message: "Fill the text fields to save information", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default))
-            present(alertController, animated: true, completion: nil)
+            self.saveExerciseData()
         }
     }
 
