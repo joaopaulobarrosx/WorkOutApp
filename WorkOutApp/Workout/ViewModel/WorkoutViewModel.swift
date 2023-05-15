@@ -60,7 +60,6 @@ class WorkoutViewModel {
             return
         }
         newItem.userUid = uidUser
-        print("DEBUG: Item UUID \(newItem)")
         do {
             try context.save()
             getAllItens()
@@ -77,7 +76,6 @@ class WorkoutViewModel {
         let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuid)")
         refWorkout.setData(["workoutTitle": label, "descriptionLabel": description, "createdLabel": date, "uid": uuid, "userUid": uidUser])
     }
-    
 
     func deleteItem(item: Workout) {
         

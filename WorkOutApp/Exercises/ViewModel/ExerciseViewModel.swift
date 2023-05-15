@@ -60,21 +60,41 @@ class ExerciseViewModel {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
 
-        createItemFirebase(label: label, description: description, uuid: uuid.uuidString, selectedWorkout: selectedWorkout, image: image)
+        uploadImageFirebase(label: label, description: description, uuid: uuid.uuidString, selectedWorkout: selectedWorkout, image: image)
     }
 
-    func createItemFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, image: Data?) {
+    func uploadImageFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, image: Data?) {
+        //upload image
+        if let image {
+            let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
+            storageRef.putData(image) { _, error in
+                if error == nil {
+                    //download URL
+                    let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
+                    storageRef.downloadURL { url, error in
+                        if let imageUrl = url?.absoluteString {
+                            self.createInfoFirebase(label: label, description: description, uuid: uuid, selectedWorkout: selectedWorkout, imageURL: imageUrl)
+                        }
+                    }
+                }
+            }
+        } else {
+            self.createInfoFirebase(label: label, description: description, uuid: uuid, selectedWorkout: selectedWorkout, imageURL: nil)
+        }
+    }
+
+    func createInfoFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, imageURL: String?) {
         guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
               let uuidWorkout = selectedWorkout.uid?.uuidString else { return }
         let database = Firestore.firestore()
         let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise/\(uuid)")
         var params = ["nameLabel": label, "notesLabel": description, "uid": uuid]
-        if let image {
-            params["exerciseImage"] = "imageURLUploadedaqui"
+        if let imageURL {
+            params["exerciseImage"] = imageURL
         }
         refWorkout.setData(params)
     }
-
+    
     func deleteItem(item: Exercise, selectedWorkout: Workout?) {
         
         deleteItemFirebase(item: item, selectedWorkout: selectedWorkout)
@@ -130,7 +150,6 @@ class ExerciseViewModel {
             params["exerciseImage"] = "imageURLUploadedaqui"
         }
         refWorkout.updateData(params)
-        
     }
     
     func editItemModal(exercise: Exercise, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {
