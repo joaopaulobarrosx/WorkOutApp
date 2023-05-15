@@ -90,10 +90,6 @@ class AddItemViewController: UIViewController {
         modalPresentationStyle = .pageSheet
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        isWorkoutView = false
-    }
-    
     //MARK: - Private
     
     private func setupView() {
