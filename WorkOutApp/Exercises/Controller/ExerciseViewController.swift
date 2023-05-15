@@ -147,7 +147,7 @@ extension ExerciseViewController: AddItemViewControllerDelegate {
 
     func didSaveExerciseItem(title: String, description: String, image: Data?, exercise: Exercise?) {
         if let exercise {
-            viewModel.updateltem(item: exercise, label: title, description: description, image: exercise.exerciseImage, selectedWorkout: self.selectedWorkout)
+            viewModel.updateltem(item: exercise, label: title, description: description, image: image, selectedWorkout: self.selectedWorkout)
 
         } else {
             viewModel.createItem(label: title, description: description, image: image, selectedWorkout: self.selectedWorkout)
