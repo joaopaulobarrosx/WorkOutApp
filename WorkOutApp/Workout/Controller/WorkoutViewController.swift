@@ -40,27 +40,43 @@ class WorkoutViewController: UITableViewController {
     }
     
     func editItemModal(workout: Workout) {
-        let alertController = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
-        alertController.addTextField { textField in
-            if let workoutTitle = workout.workoutTitle {
-                textField.text = String(describing: workoutTitle)
-            }
-        }
-        alertController.addTextField { textField in
-            textField.placeholder = String(describing: workout.descriptionLabel)
-            if let descriptionLabel = workout.descriptionLabel {
-                textField.text = String(describing: descriptionLabel)
-            }
-        }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            guard let title = alertController.textFields?[0].text, !title.isEmpty,
-                  let description = alertController.textFields?[1].text, !description.isEmpty else {
-                return
-            }
-            self.viewModel.updateltem(item: workout, label: title, description: description)
-        })
-        present(alertController, animated: true, completion: nil)
+//        let alertController = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
+//        alertController.addTextField { textField in
+//            if let workoutTitle = workout.workoutTitle {
+//                textField.text = String(describing: workoutTitle)
+//            }
+//        }
+//        alertController.addTextField { textField in
+//            textField.placeholder = String(describing: workout.descriptionLabel)
+//            if let descriptionLabel = workout.descriptionLabel {
+//                textField.text = String(describing: descriptionLabel)
+//            }
+//        }
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+//            guard let title = alertController.textFields?[0].text, !title.isEmpty,
+//                  let description = alertController.textFields?[1].text, !description.isEmpty else {
+//                return
+//            }
+//            self.viewModel.updateltem(item: workout, label: title, description: description)
+//        })
+//        present(alertController, animated: true, completion: nil)
+//
+        
+        // jeito abaixo
+        let addItemViewController = AddItemViewController()
+        addItemViewController.delegate = self
+        addItemViewController.workout = workout
+        addItemViewController.isWorkoutView = true
+        guard let workoutTitle = workout.workoutTitle,
+              let descriptionLabel = workout.descriptionLabel else { return }
+        addItemViewController.setupWorkoutEditView(title: workoutTitle, description: descriptionLabel)
+        present(addItemViewController, animated: true)
+        
+        
+        
+        
+        
     }
 
     func deleteItemModal(workout: Workout) {
@@ -156,29 +172,51 @@ extension WorkoutViewController: WorkoutProtocol {
 extension WorkoutViewController: WorkoutHeaderViewDelegate {
 
     func addPressed() {
-        let alertController = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
-        alertController.addTextField { textField in
-            textField.placeholder = "Title"
-        }
-        alertController.addTextField { textField in
-            textField.placeholder = "Description"
-        }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            guard let title = alertController.textFields?[0].text, !title.isEmpty,
-                  let description = alertController.textFields?[1].text, !description.isEmpty else {
-                return
-            }
-            self.viewModel.createItem(label: title, description: description)
-        })
-
-        present(alertController, animated: true, completion: nil)
-
+//        let alertController = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
+//        alertController.addTextField { textField in
+//            textField.placeholder = "Title"
+//        }
+//        alertController.addTextField { textField in
+//            textField.placeholder = "Description"
+//        }
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+//            guard let title = alertController.textFields?[0].text, !title.isEmpty,
+//                  let description = alertController.textFields?[1].text, !description.isEmpty else {
+//                return
+//            }
+//            self.viewModel.createItem(label: title, description: description)
+//        })
+//        present(alertController, animated: true, completion: nil)
+//        
+        
+        // ficar só com a parte abaixo
+        let addItemViewController = AddItemViewController()
+        addItemViewController.delegate = self
+        addItemViewController.setupWorkoutView()
+        addItemViewController.isWorkoutView = true
+        present(addItemViewController, animated: true)
     }
     
     func logoutUser() {
         viewModel.logoutUser()
     }
+}
+
+//MARK: - AddItemViewControllerDelegate
+
+extension WorkoutViewController: AddItemViewControllerDelegate {
+
+    func didSaveWorkoutItem(title: String, description: String, image: Data?, workout: Workout?) {
+        if let workout {
+            viewModel.updateltem(item: workout, label: title, description: description)
+        } else {
+            viewModel.createItem(label: title, description: description)
+        }
+    }
+
+    func didSaveExerciseItem(title: String, description: String, image: Data?, exercise: Exercise?) { }
+    
 }
 
 //MARK: - Preview
