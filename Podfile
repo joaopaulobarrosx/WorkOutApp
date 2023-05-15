@@ -14,5 +14,6 @@ target 'WorkOutApp' do
 	pod 'Firebase/Auth', '10.8.0'
 	pod 'Firebase/Analytics', '10.8.0'
   pod 'IQKeyboardManagerSwift', '6.5.11'
+  pod 'Firebase/Crashlytics', '10.8.0'
 
 end
