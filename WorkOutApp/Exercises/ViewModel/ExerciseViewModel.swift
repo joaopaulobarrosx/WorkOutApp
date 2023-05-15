@@ -101,6 +101,9 @@ class ExerciseViewModel {
     
     
     func updateltem(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
+        
+        updateltemFirebase(item: item, label: label, description: description, image: image, selectedWorkout: selectedWorkout)
+        
         guard let context else { return }
         item.nameLabel = label
         item.notesLabel = description
@@ -115,6 +118,21 @@ class ExerciseViewModel {
         }
     }
 
+    func updateltemFirebase(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
+        
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
+              let uuidWorkout = selectedWorkout?.uid?.uuidString,
+              let uuid = item.uid?.uuidString else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise/\(uuid)")
+        var params = ["nameLabel": label, "notesLabel": description, "uid": uuid]
+        if let image {
+            params["exerciseImage"] = "imageURLUploadedaqui"
+        }
+        refWorkout.updateData(params)
+        
+    }
+    
     func editItemModal(exercise: Exercise, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {
         let addItemViewController = AddItemViewController()
         addItemViewController.delegate = delegate
