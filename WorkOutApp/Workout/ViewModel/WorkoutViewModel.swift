@@ -103,6 +103,11 @@ class WorkoutViewModel {
     }
 
     func updateltem(item: Workout, label: String, description: String) {
+
+        if let uuid = item.uid?.uuidString, let date = item.createdLabel {
+            updateItemFirebase(item: item, label: label, description: description, uuid: uuid, date: date)
+        }
+        
         guard let context else { return }
         item.workoutTitle = label
         item.descriptionLabel = description
@@ -114,6 +119,13 @@ class WorkoutViewModel {
         }
     }
 
+    func updateItemFirebase(item: Workout, label: String, description: String, uuid: String, date: Date) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuid)")
+        refWorkout.updateData(["workoutTitle": label, "descriptionLabel": description, "createdLabel": date, "uid": uuid, "userUid": uidUser])
+    }
+    
     func editItemModal(workout: Workout, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {
         let addItemViewController = AddItemViewController()
         addItemViewController.delegate = delegate
