@@ -37,9 +37,10 @@ class WorkoutViewModel {
     //MARK: - CoreData
 
     func getAllItens() {
-        guard let context else { return }
+        guard let context = context,
+              let uid = UserDefaults.standard.object(forKey: "uid") as? String else { return }
         do {
-            let workoutArray = try context.fetch(Workout.fetchRequest())
+            let workoutArray = try context.fetch(Workout.fetchRequest(forUserUid: uid))
             self.workoutView?.returnWorkoutArray(workout: workoutArray)
         } catch let error {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
@@ -52,6 +53,9 @@ class WorkoutViewModel {
         newItem.workoutTitle = label
         newItem.descriptionLabel = description
         newItem.createdLabel = Date()
+        if let uid = UserDefaults.standard.object(forKey: "uid") as? String {
+            newItem.userUid = uid
+        }
         do {
             try context.save()
             getAllItens()

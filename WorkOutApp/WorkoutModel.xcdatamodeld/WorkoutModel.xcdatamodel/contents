@@ -9,6 +9,7 @@
     <entity name="Workout" representedClassName="Workout" syncable="YES">
         <attribute name="createdLabel" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="descriptionLabel" optional="YES" attributeType="String"/>
+        <attribute name="userUid" optional="YES" attributeType="String"/>
         <attribute name="workoutTitle" optional="YES" attributeType="String"/>
         <relationship name="exercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Exercise" inverseName="parentCategory" inverseEntity="Exercise"/>
     </entity>

@@ -44,6 +44,7 @@ class AddItemViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.text = "Add Exercise"
+        label.textColor = .white
         return label
     }()
     
@@ -87,10 +88,6 @@ class AddItemViewController: UIViewController {
         view.backgroundColor = .workOutBackgroundLight
         setupView()
         modalPresentationStyle = .pageSheet
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        isWorkoutView = false
     }
     
     //MARK: - Private
@@ -182,6 +179,7 @@ class AddItemViewController: UIViewController {
         present(picker, animated: true)
     }
 }
+
 //MARK: - Picker
 
 extension AddItemViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
@@ -198,7 +196,6 @@ extension AddItemViewController: UIImagePickerControllerDelegate & UINavigationC
         }
         picker.dismiss(animated: true)
     }
-
 }
 
 //MARK: - Preview
