@@ -42,15 +42,15 @@ class WorkoutViewModel {
         do {
             let workoutArray = try context.fetch(Workout.fetchRequest(forUserUid: uid))
             self.workoutView?.returnWorkoutArray(workout: workoutArray)
+            getAllItensFirebase(workout: workoutArray)
         } catch let error {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
         
-        getAllItensFirebase()
 
     }
 
-    func getAllItensFirebase() {
+    func getAllItensFirebase(workout: [Workout]) {
         guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
         let database = Firestore.firestore()
         let refWorkout = database.collection("uidUser/\(uidUser)/workout")
@@ -71,12 +71,8 @@ class WorkoutViewModel {
                             }
                             workouts.append(workout)
                         }
-                        
-                        
+                        //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
                         // Do something with the decoded workouts array
-                        
-                        // comparar com os dados do core data, o que o core data nao tiver, faz o upload aqui
-
                     } else if let error = error {
                         self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
                     }
