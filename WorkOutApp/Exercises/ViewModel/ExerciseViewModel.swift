@@ -51,33 +51,29 @@ class ExerciseViewModel {
         let refExercise = database.collection("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise")
         refExercise.getDocuments { snapshot, error in
             if let snapshot = snapshot {
-                refExercise.getDocuments { snapshot, error in
-                    if let snapshot = snapshot {
-                        var exerciseFirebase: [Exercise] = []
-                        for document in snapshot.documents {
-                            let exerciseData = document.data()
-                            let exercise = Exercise(context: PersistenceController.shared.container.viewContext)
-                            exercise.nameLabel = exerciseData["nameLabel"] as? String
-                            exercise.notesLabel = exerciseData["notesLabel"] as? String
-                            exercise.uid = UUID(uuidString: exerciseData["uid"] as? String ?? "")
-                            if let urlImage = exerciseData["exerciseImage"] as? String {
-                                if let url = URL(string: urlImage) {
-                                    URLSession.shared.dataTask(with: url) { data, response, error in
-                                        guard let imageData = data, error == nil else {
-                                            print("Failed to download image data: \(error?.localizedDescription ?? "")")
-                                            return
-                                        }
-                                        exercise.exerciseImage = imageData
-                                    }.resume()
+                var exerciseFirebase: [Exercise] = []
+                for document in snapshot.documents {
+                    let exerciseData = document.data()
+                    let exercise = Exercise(context: PersistenceController.shared.container.viewContext)
+                    exercise.nameLabel = exerciseData["nameLabel"] as? String
+                    exercise.notesLabel = exerciseData["notesLabel"] as? String
+                    exercise.uid = UUID(uuidString: exerciseData["uid"] as? String ?? "")
+                    if let urlImage = exerciseData["exerciseImage"] as? String {
+                        if let url = URL(string: urlImage) {
+                            URLSession.shared.dataTask(with: url) { data, response, error in
+                                guard let imageData = data, error == nil else {
+                                    print("Failed to download image data: \(error?.localizedDescription ?? "")")
+                                    return
                                 }
-                            }
-                            exerciseFirebase.append(exercise)
+                                exercise.exerciseImage = imageData
+                            }.resume()
                         }
-                        //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
-                    } else if let error = error {
-                        self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
                     }
+                    exerciseFirebase.append(exercise)
                 }
+                //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
+            } else if let error = error {
+                self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
             }
         }
     }

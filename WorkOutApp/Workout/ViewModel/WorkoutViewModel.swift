@@ -56,27 +56,24 @@ class WorkoutViewModel {
         let refWorkout = database.collection("uidUser/\(uidUser)/workout")
         refWorkout.getDocuments { snapshot, error in
             if let snapshot = snapshot {
-                refWorkout.getDocuments { snapshot, error in
-                    if let snapshot = snapshot {
-                        var workouts: [Workout] = []
-                        for document in snapshot.documents {
-                            let workoutData = document.data()
-                            let workout = Workout(context: PersistenceController.shared.container.viewContext)
-                            workout.workoutTitle = workoutData["workoutTitle"] as? String
-                            workout.descriptionLabel = workoutData["descriptionLabel"] as? String
-                            workout.uid = UUID(uuidString: workoutData["uid"] as? String ?? "")
-                            workout.userUid = workoutData["userUid"] as? String
-                            if let createdLabelDate = workoutData["createdLabel"] as? Date {
-                                workout.createdLabel = createdLabelDate
-                            }
-                            workouts.append(workout)
-                        }
-                        //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
-                        // Do something with the decoded workouts array
-                    } else if let error = error {
-                        self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
+                var workouts: [Workout] = []
+                for document in snapshot.documents {
+                    let workoutData = document.data()
+                    let workout = Workout(context: PersistenceController.shared.container.viewContext)
+                    workout.workoutTitle = workoutData["workoutTitle"] as? String
+                    workout.descriptionLabel = workoutData["descriptionLabel"] as? String
+                    workout.uid = UUID(uuidString: workoutData["uid"] as? String ?? "")
+                    workout.userUid = workoutData["userUid"] as? String
+                    if let createdLabelDate = workoutData["createdLabel"] as? Date {
+                        workout.createdLabel = createdLabelDate
                     }
+                    workouts.append(workout)
+                    print("DEBUG: 1 \(workout.workoutTitle)")
+                    print("DEBUG: 2 \(workout.descriptionLabel)")
                 }
+                //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
+            } else if let error = error {
+                self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
             }
         }
     }
