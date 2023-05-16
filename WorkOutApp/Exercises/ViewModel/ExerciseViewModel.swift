@@ -156,9 +156,8 @@ class ExerciseViewModel {
     
     
     func updateltem(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
-        
+
         uploadImageFirebase(item: item, label: label, description: description, image: image, selectedWorkout: selectedWorkout)
-        
         guard let context else { return }
         item.nameLabel = label
         item.notesLabel = description
