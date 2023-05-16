@@ -46,8 +46,6 @@ class WorkoutViewModel {
         } catch let error {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
-        
-
     }
 
     func getAllItensFirebase(workout: [Workout]) {
@@ -68,8 +66,6 @@ class WorkoutViewModel {
                         workout.createdLabel = createdLabelDate
                     }
                     workouts.append(workout)
-                    print("DEBUG: 1 \(workout.workoutTitle)")
-                    print("DEBUG: 2 \(workout.descriptionLabel)")
                 }
                 //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
             } else if let error = error {
@@ -88,7 +84,6 @@ class WorkoutViewModel {
         newItem.createdLabel = date
         let uuid = UUID()
         newItem.uid = uuid
-
         newItem.userUid = uidUser
         do {
             try context.save()
@@ -96,7 +91,6 @@ class WorkoutViewModel {
         } catch {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
-
         createItemFirebase(label: label, description: description, uuid: uuid.uuidString, date: date)
     }
 
@@ -108,9 +102,7 @@ class WorkoutViewModel {
     }
 
     func deleteItem(item: Workout) {
-        
         deleteItemFirebase(item: item)
-
         guard let context else { return }
         context.delete(item)
         do {
@@ -119,7 +111,6 @@ class WorkoutViewModel {
         } catch {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
-        
     }
 
     func deleteItemFirebase(item: Workout) {
@@ -135,7 +126,6 @@ class WorkoutViewModel {
         if let uuid = item.uid?.uuidString, let date = item.createdLabel {
             updateItemFirebase(item: item, label: label, description: description, uuid: uuid, date: date)
         }
-        
         guard let context else { return }
         item.workoutTitle = label
         item.descriptionLabel = description

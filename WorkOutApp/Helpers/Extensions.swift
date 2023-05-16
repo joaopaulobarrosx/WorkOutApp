@@ -7,9 +7,6 @@
 
 import UIKit
 
-typealias JSONDictionary = [String: Any]
-typealias JSONArray = [[String: Any]]
-
 extension UIView {
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
