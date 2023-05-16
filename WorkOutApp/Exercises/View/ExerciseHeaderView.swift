@@ -10,6 +10,7 @@ import SwiftUI
 
 protocol ExerciseHeaderViewDelegate: AnyObject {
     func addPressed()
+    func searchBarTextChanged(text: String)
 }
 
 class ExerciseHeaderView: UITableViewHeaderFooterView {
@@ -44,11 +45,19 @@ class ExerciseHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Search by exercise title"
+        searchBar.barTintColor = .lightGray
+        return searchBar
+    }()
+    
     //MARK: - Init
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
+        searchBar.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,10 +70,12 @@ class ExerciseHeaderView: UITableViewHeaderFooterView {
         addSubview(titleLabel)
         addSubview(descriptionLabel)
         addSubview(actionButton)
+        addSubview(searchBar)
 
-        titleLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 30)
+        titleLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 40, paddingLeft: 30)
         descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 30, paddingRight: 16)
-        actionButton.anchor(bottom: bottomAnchor, right: rightAnchor,paddingBottom: 16, paddingRight: 16, width: 120, height: 40)
+        actionButton.anchor(top: topAnchor, right: rightAnchor,paddingTop: 16, paddingRight: 16, width: 120, height: 40)
+        searchBar.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 16, paddingRight: 16)
         backgroundView = UIView(frame: bounds)
         backgroundView?.backgroundColor = .lightGray
     }
@@ -75,6 +86,16 @@ class ExerciseHeaderView: UITableViewHeaderFooterView {
         delegate?.addPressed()
     }
 }
+
+//MARK: - UISearchBarDelegate
+
+extension ExerciseHeaderView: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.searchBarTextChanged(text: searchText)
+    }
+}
+
 
 //MARK: - Preview
 

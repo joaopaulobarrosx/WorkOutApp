@@ -11,6 +11,7 @@ import SwiftUI
 protocol WorkoutHeaderViewDelegate: AnyObject {
     func logoutUser()
     func addPressed()
+    func searchBarTextChanged(text: String)
 }
 
 class WorkoutHeaderView: UITableViewHeaderFooterView {
@@ -53,12 +54,20 @@ class WorkoutHeaderView: UITableViewHeaderFooterView {
         button.addTarget(self, action: #selector(pressLogout), for: .touchUpInside)
         return button
     }()
+
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Search by workout title"
+        searchBar.barTintColor = .lightGray
+        return searchBar
+    }()
     
     //MARK: - Init
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
+        searchBar.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,11 +81,12 @@ class WorkoutHeaderView: UITableViewHeaderFooterView {
         addSubview(titleLabel)
         addSubview(descriptionLabel)
         addSubview(actionButton)
-        
+        addSubview(searchBar)
         logoutButton.anchor(top: topAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 10, width: 70, height: 30)
         titleLabel.anchor(top: logoutButton.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 30)
         descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 30, paddingRight: 16)
-        actionButton.anchor(bottom: bottomAnchor, right: rightAnchor,paddingBottom: 16, paddingRight: 16, width: 120, height: 40)
+        actionButton.anchor(top: topAnchor, right: rightAnchor,paddingTop: 16, paddingRight: 16, width: 120, height: 40)
+        searchBar.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 16, paddingRight: 16)
         backgroundView = UIView(frame: bounds)
         backgroundView?.backgroundColor = .lightGray
     }
@@ -91,6 +101,16 @@ class WorkoutHeaderView: UITableViewHeaderFooterView {
         delegate?.addPressed()
     }
 }
+
+//MARK: - UISearchBarDelegate
+
+extension WorkoutHeaderView: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.searchBarTextChanged(text: searchText)
+    }
+}
+
 
 //MARK: - Preview
 

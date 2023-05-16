@@ -33,7 +33,6 @@ class WorkoutViewModel {
         }
     }
     
-    
     //MARK: - CoreData
 
     func getAllItens() {

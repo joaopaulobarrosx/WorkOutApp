@@ -15,6 +15,7 @@ class WorkoutViewController: UITableViewController {
     private let reuseIdentifier = "WorkoutCell"
     private let headerReuseIdentifier = "WorkoutHeaderView"
     private var workout = [Workout]()
+    private var workoutFiltered = [Workout]()
     
     //MARK: - LifeCycle
     
@@ -23,6 +24,7 @@ class WorkoutViewController: UITableViewController {
         viewModel.attachView(self)
         setupViewElements()
         viewModel.getAllItens()
+        addTapReconizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,16 +52,33 @@ class WorkoutViewController: UITableViewController {
         present(modal, animated: true, completion: nil)
     }
 
+    func getfilteredList(searchText: String) {
+        let workoutForFilter = workout
+        let filteredList = workoutForFilter.filter { $0.workoutTitle?.lowercased().contains(searchText.lowercased()) ?? false }
+        workoutFiltered = filteredList
+        tableView.reloadData()
+    }
+
+    func addTapReconizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     //MARK: - UITableViewDelegate, UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return workout.count
+        return workoutFiltered.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let exerciseViewController = ExerciseViewController()
-        exerciseViewController.selectedWorkout = workout[indexPath.row]
+        exerciseViewController.selectedWorkout = workoutFiltered[indexPath.row]
         navigationController?.pushViewController(exerciseViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -69,7 +88,7 @@ class WorkoutViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? WorkoutCell else {
             return UITableViewCell()
         }
-        cell.workout = workout[indexPath.row]
+        cell.workout = workoutFiltered[indexPath.row]
         cell.setup()
         
         return cell
@@ -99,10 +118,10 @@ class WorkoutViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let edit = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
-            self.editItemModal(workout: self.workout[indexPath.row])
+            self.editItemModal(workout: self.workoutFiltered[indexPath.row])
         }
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.deleteItemModal(workout: self.workout[indexPath.row])
+            self.deleteItemModal(workout: self.workoutFiltered[indexPath.row])
         }
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [edit, delete])
         swipeConfiguration.performsFirstActionWithFullSwipe = false
@@ -115,6 +134,7 @@ extension WorkoutViewController: WorkoutProtocol {
     
     func returnWorkoutArray(workout: [Workout]) {
         self.workout = workout
+        self.workoutFiltered = workout
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -135,6 +155,14 @@ extension WorkoutViewController: WorkoutProtocol {
 
 extension WorkoutViewController: WorkoutHeaderViewDelegate {
 
+    func searchBarTextChanged(text: String) {
+        if text.isEmpty {
+            workoutFiltered = workout
+        } else {
+            getfilteredList(searchText: text)
+        }
+        tableView.reloadData()
+    }
     func addPressed() {
         let modal = viewModel.addPressed(delegate: self)
         present(modal, animated: true)
@@ -143,6 +171,7 @@ extension WorkoutViewController: WorkoutHeaderViewDelegate {
     func logoutUser() {
         viewModel.logoutUser()
     }
+    
 }
 
 //MARK: - AddItemViewControllerDelegate
