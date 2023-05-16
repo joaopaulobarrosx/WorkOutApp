@@ -37,10 +37,48 @@ class ExerciseViewModel {
         do {
             let exerciseArray = try context.fetch(request)
             self.exerciseView?.returnExerciseArray(exercise: exerciseArray)
+            getAllItensFirebase(selectedWorkout: selectedWorkout, exerciseCoreData: exerciseArray)
         } catch let error {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
+        
     }
+    
+    func getAllItensFirebase(selectedWorkout: Workout?, exerciseCoreData: [Exercise]) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
+              let uuidWorkout = selectedWorkout?.uid?.uuidString else { return }
+        let database = Firestore.firestore()
+        let refExercise = database.collection("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise")
+        refExercise.getDocuments { snapshot, error in
+            if let snapshot = snapshot {
+                var exerciseFirebase: [Exercise] = []
+                for document in snapshot.documents {
+                    let exerciseData = document.data()
+                    let exercise = Exercise(context: PersistenceController.shared.container.viewContext)
+                    exercise.nameLabel = exerciseData["nameLabel"] as? String
+                    exercise.notesLabel = exerciseData["notesLabel"] as? String
+                    exercise.uid = UUID(uuidString: exerciseData["uid"] as? String ?? "")
+                    if let urlImage = exerciseData["exerciseImage"] as? String {
+                        if let url = URL(string: urlImage) {
+                            URLSession.shared.dataTask(with: url) { data, response, error in
+                                guard let imageData = data, error == nil else {
+                                    print("Failed to download image data: \(error?.localizedDescription ?? "")")
+                                    return
+                                }
+                                exercise.exerciseImage = imageData
+                            }.resume()
+                        }
+                    }
+                    exerciseFirebase.append(exercise)
+                }
+                //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
+            } else if let error = error {
+                self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
+            }
+        }
+    }
+    
+    
 
     func createItem(label: String, description: String, image: Data?, selectedWorkout: Workout?) {
         guard let context = context, let selectedWorkout = selectedWorkout else { return }
@@ -60,21 +98,41 @@ class ExerciseViewModel {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
 
-        createItemFirebase(label: label, description: description, uuid: uuid.uuidString, selectedWorkout: selectedWorkout, image: image)
+        uploadImageFirebase(label: label, description: description, uuid: uuid.uuidString, selectedWorkout: selectedWorkout, image: image)
     }
 
-    func createItemFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, image: Data?) {
+    func uploadImageFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, image: Data?) {
+        //upload image
+        if let image {
+            let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
+            storageRef.putData(image) { _, error in
+                if error == nil {
+                    //download URL
+                    let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
+                    storageRef.downloadURL { url, error in
+                        if let imageUrl = url?.absoluteString {
+                            self.createInfoFirebase(label: label, description: description, uuid: uuid, selectedWorkout: selectedWorkout, imageURL: imageUrl)
+                        }
+                    }
+                }
+            }
+        } else {
+            self.createInfoFirebase(label: label, description: description, uuid: uuid, selectedWorkout: selectedWorkout, imageURL: nil)
+        }
+    }
+
+    func createInfoFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, imageURL: String?) {
         guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
               let uuidWorkout = selectedWorkout.uid?.uuidString else { return }
         let database = Firestore.firestore()
         let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise/\(uuid)")
         var params = ["nameLabel": label, "notesLabel": description, "uid": uuid]
-        if let image {
-            params["exerciseImage"] = "imageURLUploadedaqui"
+        if let imageURL {
+            params["exerciseImage"] = imageURL
         }
         refWorkout.setData(params)
     }
-
+    
     func deleteItem(item: Exercise, selectedWorkout: Workout?) {
         
         deleteItemFirebase(item: item, selectedWorkout: selectedWorkout)
@@ -130,7 +188,6 @@ class ExerciseViewModel {
             params["exerciseImage"] = "imageURLUploadedaqui"
         }
         refWorkout.updateData(params)
-        
     }
     
     func editItemModal(exercise: Exercise, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {

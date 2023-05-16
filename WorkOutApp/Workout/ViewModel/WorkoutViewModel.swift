@@ -42,13 +42,45 @@ class WorkoutViewModel {
         do {
             let workoutArray = try context.fetch(Workout.fetchRequest(forUserUid: uid))
             self.workoutView?.returnWorkoutArray(workout: workoutArray)
+            getAllItensFirebase(workout: workoutArray)
         } catch let error {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
+        }
+        
+
+    }
+
+    func getAllItensFirebase(workout: [Workout]) {
+        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
+        let database = Firestore.firestore()
+        let refWorkout = database.collection("uidUser/\(uidUser)/workout")
+        refWorkout.getDocuments { snapshot, error in
+            if let snapshot = snapshot {
+                var workouts: [Workout] = []
+                for document in snapshot.documents {
+                    let workoutData = document.data()
+                    let workout = Workout(context: PersistenceController.shared.container.viewContext)
+                    workout.workoutTitle = workoutData["workoutTitle"] as? String
+                    workout.descriptionLabel = workoutData["descriptionLabel"] as? String
+                    workout.uid = UUID(uuidString: workoutData["uid"] as? String ?? "")
+                    workout.userUid = workoutData["userUid"] as? String
+                    if let createdLabelDate = workoutData["createdLabel"] as? Date {
+                        workout.createdLabel = createdLabelDate
+                    }
+                    workouts.append(workout)
+                    print("DEBUG: 1 \(workout.workoutTitle)")
+                    print("DEBUG: 2 \(workout.descriptionLabel)")
+                }
+                //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
+            } else if let error = error {
+                self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
+            }
         }
     }
 
     func createItem(label: String, description: String) {
-        guard let context else { return }
+        guard let context = context,
+              let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else { return }
         let newItem = Workout(context: context)
         newItem.workoutTitle = label
         newItem.descriptionLabel = description
@@ -56,11 +88,8 @@ class WorkoutViewModel {
         newItem.createdLabel = date
         let uuid = UUID()
         newItem.uid = uuid
-        guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String else {
-            return
-        }
+
         newItem.userUid = uidUser
-        print("DEBUG: Item UUID \(newItem)")
         do {
             try context.save()
             getAllItens()
@@ -77,7 +106,6 @@ class WorkoutViewModel {
         let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuid)")
         refWorkout.setData(["workoutTitle": label, "descriptionLabel": description, "createdLabel": date, "uid": uuid, "userUid": uidUser])
     }
-    
 
     func deleteItem(item: Workout) {
         
@@ -154,5 +182,21 @@ class WorkoutViewModel {
         addItemViewController.setupWorkoutView()
         addItemViewController.isWorkoutView = true
         return addItemViewController
+    }
+}
+
+
+class PersistenceController {
+    static let shared = PersistenceController()
+
+    let container: NSPersistentContainer
+
+    init() {
+        container = NSPersistentContainer(name: "MyApp")
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                fatalError("Failed to load persistent stores: \(error.localizedDescription)")
+            }
+        }
     }
 }
