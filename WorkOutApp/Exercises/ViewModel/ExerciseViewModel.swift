@@ -102,13 +102,10 @@ class ExerciseViewModel {
     }
 
     func uploadImageFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, image: Data?) {
-        //upload image
         if let image {
             let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
             storageRef.putData(image) { _, error in
                 if error == nil {
-                    //download URL
-                    let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
                     storageRef.downloadURL { url, error in
                         if let imageUrl = url?.absoluteString {
                             self.createInfoFirebase(label: label, description: description, uuid: uuid, selectedWorkout: selectedWorkout, imageURL: imageUrl)
@@ -120,7 +117,7 @@ class ExerciseViewModel {
             self.createInfoFirebase(label: label, description: description, uuid: uuid, selectedWorkout: selectedWorkout, imageURL: nil)
         }
     }
-
+    
     func createInfoFirebase(label: String, description: String, uuid: String, selectedWorkout: Workout, imageURL: String?) {
         guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
               let uuidWorkout = selectedWorkout.uid?.uuidString else { return }
@@ -160,7 +157,7 @@ class ExerciseViewModel {
     
     func updateltem(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
         
-        updateltemFirebase(item: item, label: label, description: description, image: image, selectedWorkout: selectedWorkout)
+        uploadImageFirebase(item: item, label: label, description: description, image: image, selectedWorkout: selectedWorkout)
         
         guard let context else { return }
         item.nameLabel = label
@@ -175,8 +172,25 @@ class ExerciseViewModel {
             self.exerciseView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
     }
+    
+    func uploadImageFirebase(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
+        if let image = image, let uuid = selectedWorkout?.uid?.uuidString {
+            let storageRef = Storage.storage().reference().child("exercise_image").child(uuid)
+            storageRef.putData(image) { st, error in
+                if error == nil {
+                    storageRef.downloadURL { urlImage, err in
+                        if let urImagem = urlImage?.absoluteString {
+                            self.updateltemFirebase(item: item, label: label, description: description, image: urImagem, selectedWorkout: selectedWorkout)
+                        }
+                    }
+                }
+            }
+        } else {
+            self.updateltemFirebase(item: item, label: label, description: description, image: nil, selectedWorkout: selectedWorkout)
+        }
+    }
 
-    func updateltemFirebase(item: Exercise, label: String, description: String, image: Data?, selectedWorkout: Workout?) {
+    func updateltemFirebase(item: Exercise, label: String, description: String, image: String?, selectedWorkout: Workout?) {
         
         guard let uidUser = UserDefaults.standard.object(forKey: "uid") as? String,
               let uuidWorkout = selectedWorkout?.uid?.uuidString,
@@ -185,11 +199,11 @@ class ExerciseViewModel {
         let refWorkout = database.document("uidUser/\(uidUser)/workout/\(uuidWorkout)/exercise/\(uuid)")
         var params = ["nameLabel": label, "notesLabel": description, "uid": uuid]
         if let image {
-            params["exerciseImage"] = "imageURLUploadedaqui"
+            params["exerciseImage"] = image
         }
         refWorkout.updateData(params)
     }
-    
+
     func editItemModal(exercise: Exercise, delegate: AddItemViewControllerDelegate?) -> AddItemViewController {
         let addItemViewController = AddItemViewController()
         addItemViewController.delegate = delegate

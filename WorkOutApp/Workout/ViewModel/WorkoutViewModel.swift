@@ -46,8 +46,6 @@ class WorkoutViewModel {
         } catch let error {
             self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
         }
-        
-
     }
 
     func getAllItensFirebase(workout: [Workout]) {
@@ -68,8 +66,6 @@ class WorkoutViewModel {
                         workout.createdLabel = createdLabelDate
                     }
                     workouts.append(workout)
-                    print("DEBUG: 1 \(workout.workoutTitle)")
-                    print("DEBUG: 2 \(workout.descriptionLabel)")
                 }
                 //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
             } else if let error = error {

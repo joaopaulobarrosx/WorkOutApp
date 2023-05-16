@@ -29,7 +29,6 @@
 		5FD1A5052A0F2F1800916BEB /* LoginRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */; };
 		5FD1A5072A0F427E00916BEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */; };
 		5FEA51D52A0F4E7B006A1CE7 /* WorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEA51D42A0F4E7B006A1CE7 /* WorkoutViewController.swift */; };
-		5FEFE2C12A12CC8500C2B6F3 /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEFE2C02A12CC8500C2B6F3 /* Extension+UIImageView.swift */; };
 		C75F02FED5A31E510590AB8B /* Pods_WorkOutApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2DB1BC094E7326B7C901F1 /* Pods_WorkOutApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +57,6 @@
 		5FD1A5042A0F2F1800916BEB /* LoginRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterViewModel.swift; sourceTree = "<group>"; };
 		5FD1A5062A0F427E00916BEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5FEA51D42A0F4E7B006A1CE7 /* WorkoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewController.swift; sourceTree = "<group>"; };
-		5FEFE2C02A12CC8500C2B6F3 /* Extension+UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImageView.swift"; sourceTree = "<group>"; };
 		B2E3F38711CFB77F2EB27EB3 /* Pods-WorkOutApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkOutApp.release.xcconfig"; path = "Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp.release.xcconfig"; sourceTree = "<group>"; };
 		DA2DB1BC094E7326B7C901F1 /* Pods_WorkOutApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WorkOutApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4A61126B5F08B50EC3DAC7 /* Pods-WorkOutApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkOutApp.debug.xcconfig"; path = "Target Support Files/Pods-WorkOutApp/Pods-WorkOutApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 			children = (
 				5FD1A4FE2A0F171A00916BEB /* Extensions.swift */,
 				5FD1A5002A0F173400916BEB /* ViewControllerPreview.swift */,
-				5FEFE2C02A12CC8500C2B6F3 /* Extension+UIImageView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -363,7 +360,6 @@
 			files = (
 				5FEA51D52A0F4E7B006A1CE7 /* WorkoutViewController.swift in Sources */,
 				5F4FEFA92A11325E00E11A56 /* ExerciseCell.swift in Sources */,
-				5FEFE2C12A12CC8500C2B6F3 /* Extension+UIImageView.swift in Sources */,
 				5F3D268A2A10928C00E03589 /* Workout+CoreDataClass.swift in Sources */,
 				5F3D268B2A10928C00E03589 /* Workout+CoreDataProperties.swift in Sources */,
 				5F3D265F2A105B3F00E03589 /* WorkoutModel.xcdatamodeld in Sources */,
