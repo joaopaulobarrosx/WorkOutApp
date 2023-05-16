@@ -52,13 +52,6 @@ class WorkoutViewController: UITableViewController {
         present(modal, animated: true, completion: nil)
     }
 
-    func getfilteredList(searchText: String) {
-        let workoutForFilter = workout
-        let filteredList = workoutForFilter.filter { $0.workoutTitle?.lowercased().contains(searchText.lowercased()) ?? false }
-        workoutFiltered = filteredList
-        tableView.reloadData()
-    }
-
     func addTapReconizer() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -159,9 +152,11 @@ extension WorkoutViewController: WorkoutHeaderViewDelegate {
         if text.isEmpty {
             workoutFiltered = workout
         } else {
-            getfilteredList(searchText: text)
+            workoutFiltered = viewModel.getfilteredList(searchText: text, workout: workout)
         }
-        tableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.tableView.reloadData()
+        }
     }
     func addPressed() {
         let modal = viewModel.addPressed(delegate: self)
@@ -171,7 +166,6 @@ extension WorkoutViewController: WorkoutHeaderViewDelegate {
     func logoutUser() {
         viewModel.logoutUser()
     }
-    
 }
 
 //MARK: - AddItemViewControllerDelegate

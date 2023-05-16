@@ -72,7 +72,7 @@ class ExerciseHeaderView: UITableViewHeaderFooterView {
         addSubview(actionButton)
         addSubview(searchBar)
 
-        titleLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 40, paddingLeft: 30)
+        titleLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 50, paddingLeft: 30)
         descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 30, paddingRight: 16)
         actionButton.anchor(top: topAnchor, right: rightAnchor,paddingTop: 16, paddingRight: 16, width: 120, height: 40)
         searchBar.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 16, paddingRight: 16)

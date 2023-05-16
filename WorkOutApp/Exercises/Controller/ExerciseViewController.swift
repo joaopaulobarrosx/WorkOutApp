@@ -58,13 +58,6 @@ class ExerciseViewController: UITableViewController {
         present(modal, animated: true, completion: nil)
     }
 
-    func getfilteredList(searchText: String) {
-        let exerciseForFilter = exercise
-        let filteredList = exerciseForFilter.filter { $0.nameLabel?.lowercased().contains(searchText.lowercased()) ?? false }
-        exerciseFiltered = filteredList
-        tableView.reloadData()
-    }
-
     func addTapReconizer() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -158,9 +151,11 @@ extension ExerciseViewController: ExerciseHeaderViewDelegate {
         if text.isEmpty {
             exerciseFiltered = exercise
         } else {
-            getfilteredList(searchText: text)
+            exerciseFiltered = viewModel.getfilteredList(searchText: text, exercise: exercise)
         }
-        tableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.tableView.reloadData()
+        }
     }
 
     func addPressed() {
