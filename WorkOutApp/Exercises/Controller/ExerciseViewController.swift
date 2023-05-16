@@ -15,6 +15,8 @@ class ExerciseViewController: UITableViewController {
     private let reuseIdentifier = "ExerciseCell"
     private let headerReuseIdentifier = "ExerciseHeaderView"
     private var exercise = [Exercise]()
+    private var exerciseFiltered = [Exercise]()
+
     var selectedWorkout: Workout? {
         didSet {
             tableView.reloadData()
@@ -29,6 +31,7 @@ class ExerciseViewController: UITableViewController {
         view.backgroundColor = .workOutBackground
         viewModel.attachView(self)
         setupViewElements()
+        addTapReconizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,30 +58,39 @@ class ExerciseViewController: UITableViewController {
         present(modal, animated: true, completion: nil)
     }
 
-    
+    func addTapReconizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
     //MARK: - UITableViewDelegate, UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exercise.count
+        return exerciseFiltered.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        editItemModal(exercise: exercise[indexPath.row])
+        editItemModal(exercise: exerciseFiltered[indexPath.row])
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? ExerciseCell else {
             return UITableViewCell()
         }
-        cell.exercise = exercise[indexPath.row]
+        cell.exercise = exerciseFiltered[indexPath.row]
         cell.setup()
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 160
+        return 200
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -101,10 +113,10 @@ class ExerciseViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let edit = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
-            self.editItemModal(exercise: self.exercise[indexPath.row])
+            self.editItemModal(exercise: self.exerciseFiltered[indexPath.row])
         }
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.deleteItemModal(exercise: self.exercise[indexPath.row])
+            self.deleteItemModal(exercise: self.exerciseFiltered[indexPath.row])
         }
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [edit, delete])
         swipeConfiguration.performsFirstActionWithFullSwipe = false
@@ -118,6 +130,7 @@ extension ExerciseViewController: ExerciseProtocol {
 
     func returnExerciseArray(exercise: [Exercise]) {
         self.exercise = exercise
+        self.exerciseFiltered = exercise
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -133,6 +146,17 @@ extension ExerciseViewController: ExerciseProtocol {
 //MARK: - ExerciseHeaderViewDelegate
 
 extension ExerciseViewController: ExerciseHeaderViewDelegate {
+    
+    func searchBarTextChanged(text: String) {
+        if text.isEmpty {
+            exerciseFiltered = exercise
+        } else {
+            exerciseFiltered = viewModel.getfilteredList(searchText: text, exercise: exercise)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.tableView.reloadData()
+        }
+    }
 
     func addPressed() {
         let addItemViewController = AddItemViewController()

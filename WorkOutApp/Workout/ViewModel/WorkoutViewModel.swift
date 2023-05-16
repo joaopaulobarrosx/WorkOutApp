@@ -33,6 +33,10 @@ class WorkoutViewModel {
         }
     }
     
+    func getfilteredList(searchText: String, workout: [Workout]) -> [Workout] {
+        let filteredList = workout.filter { $0.workoutTitle?.lowercased().contains(searchText.lowercased()) ?? false }
+        return filteredList
+    }
     
     //MARK: - CoreData
 
@@ -67,7 +71,6 @@ class WorkoutViewModel {
                     }
                     workouts.append(workout)
                 }
-                //compare  exerciseCoreData  and exerciseFirebase and upload the array of the Exercises needeed
             } else if let error = error {
                 self.workoutView?.showAlert(title: "Error", message: "\(error.localizedDescription)")
             }
